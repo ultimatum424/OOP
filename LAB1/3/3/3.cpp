@@ -9,43 +9,52 @@
 
 using namespace std;
 
-const int DIMENSION = 3;
+const int SIZE = 3;
 
-bool ReadFromFile(ifstream& inputFile, float  martix[DIMENSION][DIMENSION])
+int ReadFromFile(string nameFile, float  martix[SIZE][SIZE])
 {
-	while (!inputFile.eof())
+	ifstream inputFile;
+	inputFile.open(nameFile);
+	if (inputFile.is_open())
 	{
-		for (size_t i = 0; i < DIMENSION; i++)
+		while (!inputFile.eof())
 		{
-			for (size_t j = 0; j < DIMENSION; j++)
-			{
-				string read;
-				inputFile >> read;
-				martix[i][j] = atof(read.c_str());
-				if (((martix[i][j] == 0) && (read != "0")))
-				{
-					inputFile.close();
-					return false;
-				}
-			}
+			for (size_t i = 0; i < SIZE; i++)
+				for (size_t j = 0; j < SIZE; j++)
+					if (!(inputFile >> martix[i][j]))
+					{
+						return 2;
+					}
 		}
+		return 0;
 	}
-	inputFile.close();
-	return true;
+	else
+	{
+		return 1;
+	}
 }
-void MultiplicationMatrix(float martix1[DIMENSION][DIMENSION], float martix2[DIMENSION][DIMENSION], float resultMartix[DIMENSION][DIMENSION])
+void MultiplicationMatrix(const float mat1[SIZE][SIZE], const float mat2[SIZE][SIZE], float resultMatrix[SIZE][SIZE])
 {
-	resultMartix[0][0] = martix1[0][0] * martix2[0][0] + martix1[0][1] * martix2[1][0] + martix1[0][2] * martix2[2][0];
-	resultMartix[0][1] = martix1[0][0] * martix2[0][1] + martix1[0][1] * martix2[1][1] + martix1[0][2] * martix2[2][1];
-	resultMartix[0][2] = martix1[0][0] * martix2[0][2] + martix1[0][1] * martix2[1][2] + martix1[0][2] * martix2[2][2];
+	resultMatrix[0][0] = mat1[0][0] * mat2[0][0] + mat1[0][1] * mat2[1][0] + mat1[0][2] * mat2[2][0];
+	resultMatrix[0][1] = mat1[0][0] * mat2[0][1] + mat1[0][1] * mat2[1][1] + mat1[0][2] * mat2[2][1];
+	resultMatrix[0][2] = mat1[0][0] * mat2[0][2] + mat1[0][1] * mat2[1][2] + mat1[0][2] * mat2[2][2];
 
-	resultMartix[1][0] = martix1[1][0] * martix2[0][0] + martix1[1][1] * martix2[1][0] + martix1[1][2] * martix2[2][0];
-	resultMartix[1][1] = martix1[1][0] * martix2[0][1] + martix1[1][1] * martix2[1][1] + martix1[1][2] * martix2[2][1];
-	resultMartix[1][2] = martix1[1][0] * martix2[0][2] + martix1[1][1] * martix2[1][2] + martix1[1][2] * martix2[2][2];
+	resultMatrix[1][0] = mat1[1][0] * mat2[0][0] + mat1[1][1] * mat2[1][0] + mat1[1][2] * mat2[2][0];
+	resultMatrix[1][1] = mat1[1][0] * mat2[0][1] + mat1[1][1] * mat2[1][1] + mat1[1][2] * mat2[2][1];
+	resultMatrix[1][2] = mat1[1][0] * mat2[0][2] + mat1[1][1] * mat2[1][2] + mat1[1][2] * mat2[2][2];
 
-	resultMartix[2][0] = martix1[2][0] * martix2[0][0] + martix1[2][1] * martix2[1][0] + martix1[2][2] * martix2[2][0];
-	resultMartix[2][1] = martix1[2][0] * martix2[0][1] + martix1[2][1] * martix2[1][1] + martix1[2][2] * martix2[2][1];
-	resultMartix[2][2] = martix1[2][0] * martix2[0][2] + martix1[2][1] * martix2[1][2] + martix1[2][2] * martix2[2][2];
+	resultMatrix[2][0] = mat1[2][0] * mat2[0][0] + mat1[2][1] * mat2[1][0] + mat1[2][2] * mat2[2][0];
+	resultMatrix[2][1] = mat1[2][0] * mat2[0][1] + mat1[2][1] * mat2[1][1] + mat1[2][2] * mat2[2][1];
+	resultMatrix[2][2] = mat1[2][0] * mat2[0][2] + mat1[2][1] * mat2[1][2] + mat1[2][2] * mat2[2][2];
+}
+
+void WriteFromFile(float  resultMatrix[SIZE][SIZE])
+{
+	ofstream outFile;
+	outFile.open("result_martix.txt");
+	outFile << resultMatrix[0][0] << " " << resultMatrix[0][1] << " " << resultMatrix[0][2] << endl;
+	outFile << resultMatrix[1][0] << " " << resultMatrix[1][1] << " " << resultMatrix[1][2] << endl;
+	outFile << resultMatrix[2][0] << " " << resultMatrix[2][1] << " " << resultMatrix[2][2] << endl;
 }
 
 int main(int argc, char* argv[])
@@ -57,33 +66,26 @@ int main(int argc, char* argv[])
 	}
 	else
 	{
-		ifstream inputFile1;
-		ifstream inputFile2;
-		ofstream outFile;
-		inputFile1.open(argv[1]);
-		inputFile2.open(argv[2]);
-		if ((inputFile1.is_open()) && (inputFile2.is_open()))
-		{
-			float  martix1[DIMENSION][DIMENSION];
-			float  martix2[DIMENSION][DIMENSION];
-			float  resultMartix[DIMENSION][DIMENSION];
-			
-			if ((!ReadFromFile(inputFile1, martix1)) || (!ReadFromFile(inputFile2, martix2)))
-			{
-				cout << "dimension of matrix is not a 3X3";
-				return 1;
-			}
-			MultiplicationMatrix(martix1, martix2, resultMartix);
-			outFile.open("result_martix.txt");
-			outFile << resultMartix[0][0] << " " << resultMartix[0][1] << " " << resultMartix[0][2] << endl;
-			outFile << resultMartix[1][0] << " " << resultMartix[1][1] << " " << resultMartix[1][2] << endl;
-			outFile << resultMartix[2][0] << " " << resultMartix[2][1] << " " << resultMartix[2][2] << endl;
-			outFile.close();
-		}
-		else
+		float  martix1[SIZE][SIZE];
+		float  martix2[SIZE][SIZE];
+		float  resultMatrix[SIZE][SIZE];
+
+		int checkRead1 = ReadFromFile(argv[1], martix1);
+		int checkRead2 = ReadFromFile(argv[2], martix2);
+		if ((checkRead1 == 1) || (checkRead2 == 1))
 		{
 			cout << "Erorr: Can't open file" << endl;
 			return 1;
+		}
+		else if ((checkRead1 == 2) || (checkRead2 == 2))
+		{
+			cout << "size of matrix is not a 3X3" << endl;
+			return 1;
+		}
+		else
+		{
+			MultiplicationMatrix(martix1, martix2, resultMatrix);
+			WriteFromFile(resultMatrix);
 		}
 	}
     return 0;

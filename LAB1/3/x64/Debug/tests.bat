@@ -23,7 +23,7 @@ REM запуск программы с проверкой вычисления
 FC /B result_martix.txt output/right_matrix2.txt
 IF ERRORLEVEL 1 GOTO err
 
-REM запуск программы с проверкой вычисления
+REM запуск программы с проверкой вычисления2222
 3.exe "input/3/m1.txt" "input/3/m2.txt"
 FC /B result_martix.txt output/right_matrix3.txt
 IF ERRORLEVEL 1 GOTO err
