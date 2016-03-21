@@ -18,24 +18,23 @@ REM запуск программы с двумя числовыми параметрами
 2.exe 15 2 q
 IF NOT ERRORLEVEL 1 GOTO err
 
-2.exe 15 2 3
-IF ERRORLEVEL 1 GOTO err
-
 2.exe 2 1 1 > out
-FC /B out 1
+FC /B out output/out1.txt
 IF ERRORLEVEL 1 GOTO err
 
 2.exe 4 3 1 > out
-FC /B out -2 -10
+FC /B out output/out2.txt
+IF ERRORLEVEL 1 GOTO err
+
+2.exe 30.58 12.28 5.21 > out
+FC /B out output/out3.txt
 IF ERRORLEVEL 1 GOTO err
 
 ECHO Program testing succeeded :-)
 
-TIMEOUT /T 10 /NOBREAK
 EXIT
 
 :err
-ECHOProgramtestingfailed :-(
+ECHO Programtestingfailed :-(
 
-TIMEOUT /T 10 /NOBREAK
 EXIT

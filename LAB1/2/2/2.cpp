@@ -5,7 +5,7 @@
 #include "math.h"
 
 using namespace std;
-int CalculationQuadraticEquation(float coefficients[3],   std::vector <float>& solution)
+int CalculationQuadraticEquation(float coefficients[3], vector <float>& solution)
 {
 	if (coefficients[0] == 0)
 	{
@@ -27,6 +27,24 @@ int CalculationQuadraticEquation(float coefficients[3],   std::vector <float>& s
 	}
 	return 0;
 }
+int ReadCoeff(float coefficients[3], char* argv[])
+{
+	coefficients[0] = float(atof(argv[1]));
+	coefficients[1] = float(atof(argv[2]));
+	coefficients[2] = float(atof(argv[3]));
+		 
+	if (((argv[1] != "0") && (coefficients[0] == 0)) || ((argv[2] != "0") && (coefficients[1] == 0))
+		|| ((argv[3] != "0") && (coefficients[2] == 0)))
+	{
+		return 1;
+	}
+	return 0;
+}
+void OutputSolution(const vector <float> solution)
+{
+	for (size_t i = 0; i < solution.size(); i++)
+		cout << solution[i] << endl;
+}
 int main(int argc, char* argv[])
 {
 	if (argc != 4)
@@ -38,13 +56,11 @@ int main(int argc, char* argv[])
 	{
 		float coefficients[3];
 		std::vector <float> solution;
-		coefficients[0] = float(atof(argv[1]));
-		coefficients[1] = float(atof(argv[2]));
-		coefficients[2] = float(atof(argv[3]));
-		if (((argv[1] != "0") && (coefficients[0] == 0)) || ((argv[2] != "0") && (coefficients[1] == 0))
-			|| ((argv[3] != "0") && (coefficients[2] == 0)))
+
+		
+		if (ReadCoeff(coefficients, argv))		
 		{
-			cout << "wrong number of arguments" << endl << "Enter the coefficients of the quadratic equation: a, b, c" << endl;
+			cout << "ERR: " << endl;
 			return 1;
 		}
 		else
@@ -56,8 +72,7 @@ int main(int argc, char* argv[])
 				cout << "There is no real root" << endl;
 			else
 			{
-				for (int i = 0; i < solution.size(); i++)
-					cout << solution[i] << endl;
+				OutputSolution(solution);
 			}
 		}
 		return 0;
