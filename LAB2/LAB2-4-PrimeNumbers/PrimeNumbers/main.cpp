@@ -6,8 +6,11 @@ int main()
 	int size;
 	cout << "SIZE = ";
 	cin >> size;
-	int count = SearchCountPrimeNumbers(size);
+	
+	vector<bool> sieve = CreatingASieve(size);
+	SievingSieve(sieve);
+	set<int> setOfPrimeNumbers = CoutingPrimes(sieve);
+	int count =  setOfPrimeNumbers.size();
 	cout << count << endl;
-	system("pause");
 	return 0;
 }

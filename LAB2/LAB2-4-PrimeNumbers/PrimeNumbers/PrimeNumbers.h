@@ -9,7 +9,5 @@ using namespace std;
 
 
 vector<bool> CreatingASieve(const int size);
-bool CheckPrime(int number);
 void SievingSieve(vector<bool>& sieve);
 set<int> CoutingPrimes(vector<bool>& sieve);
-int SearchCountPrimeNumbers(int size);
