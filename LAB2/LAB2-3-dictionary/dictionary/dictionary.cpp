@@ -71,9 +71,6 @@ void SaveDictionary(string fileName, dictionaryType dictionary)
 		outFile << it->first << endl;
 		outFile << it->second << endl;
 	}
-	//copy(dictionary.begin(), dictionary.end(), ostream_iterator<pair<string, string>>(outFile, "\n"));
-	//copy(dictionary.begin(), dictionary.end(), ostreambuf_iterator<pair<string, string >> (cout));
-	//copy(dictionary.cbegin(), dictionary.cend(), ostream_iterator<pair<string, string> >(outFile, "\n"));
 }
 void OutDict(dictionaryType dictionary)
 {

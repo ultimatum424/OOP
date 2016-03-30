@@ -18,30 +18,63 @@ int main()
 	OutDict(reverseDictionary);
 	string tempString;
 	string tempWord;
-	int isWork = 1;
-	while (isWork)
-	{
+	bool isChange = false;
+	int levelWork = 2;
+	while (levelWork)
+	{	
 		cin >> tempString;
-		if (tempString == "...")
-			isWork -= 1;
-		else if (isWork == 1)
+		if (levelWork == 1)
 		{
-			string tranclateWord = FindTranclate(tempString, dictionary, reverseDictionary);
-			if (tranclateWord != "")
-				cout << tranclateWord << endl;
+			transform(tempString.begin(), tempString.end(), tempString.begin(), tolower);
+			if (tempString == "y")
+			{
+				SaveDictionary(fileName, dictionary);
+				levelWork = 0;
+				cout << "»зменени€ сохраненый";
+			}
+			else if (tempString == "n")
+				levelWork = 0;
+		}
+		else if (levelWork == 2)
+		{
+			if (tempString == "...")
+			{
+				if (isChange)
+				{
+					cout << "—охрнаить изменеи€ Y/N ? ";
+					levelWork--;
+				}
+				else if (!isChange)
+					levelWork = 0;
+			}	
 			else
 			{
-				cout << "Ќеизвестное слово У" << tempString << "Ф .¬ведите перевод или пустую строку дл€ отказа." << endl;
-				isWork++;
-				tempWord = tempString;
+				string tranclateWord = FindTranclate(tempString, dictionary, reverseDictionary);
+				if (tranclateWord != "")
+					cout << tranclateWord << endl;
+				else
+				{
+					cout << "Ќеизвестное слово У" << tempString << "Ф .¬ведите перевод или пустую строку дл€ отказа." << endl;
+					levelWork++;
+					tempWord = tempString;
+				}
 			}
 		}
-		else if (isWork == 2)
+		else if (levelWork == 3)
 		{
-			AddTranslate(tempString, tempWord, dictionary, reverseDictionary);
-			cout << "—лово У" << tempString << "Ф сохранено в словаре как У" << tempWord << "Ф." << endl;
-			isWork--;
-		}		
+			if (tempString == "...")
+			{
+				cout << "Cлово " << tempWord <<  " проигнорировано" << endl;
+				levelWork--;
+			}
+			else
+			{
+				AddTranslate(tempString, tempWord, dictionary, reverseDictionary);
+				cout << "—лово У" << tempString << "Ф сохранено в словаре как У" << tempWord << "Ф." << endl;
+				levelWork--;
+				isChange = true;
+			}
+		}
+		
 	}
-	SaveDictionary(fileName, dictionary);
 }
