@@ -15,6 +15,7 @@ int main()
 	InitDictonary(fileName);
 	dictionaryType dictionary = ReadWorlds(fileName);
 	dictionaryType reverseDictionary = CreatReverseDictionary(dictionary);
+	OutDict(reverseDictionary);
 	string tempString;
 	string tempWord;
 	int isWork = 1;

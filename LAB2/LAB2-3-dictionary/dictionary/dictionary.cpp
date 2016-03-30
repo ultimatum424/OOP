@@ -42,6 +42,7 @@ dictionaryType CreatReverseDictionary(dictionaryType& dictionary)
 	{
 		reverseDictionary[it->second] = it->first;
 	}
+
 	return reverseDictionary;
 }
 
@@ -73,4 +74,12 @@ void SaveDictionary(string fileName, dictionaryType dictionary)
 	//copy(dictionary.begin(), dictionary.end(), ostream_iterator<pair<string, string>>(outFile, "\n"));
 	//copy(dictionary.begin(), dictionary.end(), ostreambuf_iterator<pair<string, string >> (cout));
 	//copy(dictionary.cbegin(), dictionary.cend(), ostream_iterator<pair<string, string> >(outFile, "\n"));
+}
+void OutDict(dictionaryType dictionary)
+{
+	for (auto it = dictionary.begin(); it != dictionary.end(); ++it)
+	{
+		cout << it->first << " --> ";
+		cout << it->second << endl;
+	}
 }

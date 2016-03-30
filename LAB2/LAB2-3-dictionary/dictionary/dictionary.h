@@ -8,6 +8,7 @@
 #include <cassert>
 #include <fstream>
 #include <algorithm>
+
 using namespace std;
 
 typedef map<string, string> dictionaryType;
@@ -18,5 +19,6 @@ dictionaryType CreatReverseDictionary(dictionaryType& dictionary);
 string FindTranclate(string word, dictionaryType dictionary, dictionaryType reverseDictionary);
 void AddTranslate(string word1, string word2, dictionaryType& dictionary, dictionaryType& reverseDictionary);
 void SaveDictionary(string fileName, dictionaryType dictionary);
+void OutDict(dictionaryType dictionary);
 
 
