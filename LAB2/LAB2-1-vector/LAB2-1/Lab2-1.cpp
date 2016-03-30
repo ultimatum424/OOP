@@ -8,9 +8,11 @@ vector<double> ReadVector()
 	return readVec;
 }
 
-vector<double> DivisinMassOnMàxElement(const vector<double>& mainVector)
+vector<double> DivisinonArrayOnMàxElement(const vector<double>& mainVector)
 {
 	vector <double> dividedVector = mainVector;
+	if (!dividedVector.size())
+		return dividedVector;
 	double maxNumber = *max_element(mainVector.begin(), mainVector.end());
 	if (maxNumber == 0)
 		return dividedVector;
@@ -18,9 +20,9 @@ vector<double> DivisinMassOnMàxElement(const vector<double>& mainVector)
 	{
 		maxNumber = maxNumber / 2;
 
-		for (auto& vectorI : dividedVector)
+		for (auto& i : dividedVector)
 		{
-			vectorI = vectorI / maxNumber;
+			i = i / maxNumber;
 		}
 		return dividedVector;
 	}

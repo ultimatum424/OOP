@@ -12,8 +12,8 @@ BOOST_AUTO_TEST_SUITE(VectorDivisionTest)
 		vector<double> startVector2 = { 0, -12, 3 };
 		vector<double> resultVector2 = { 0, -8, 2};
 
-		BOOST_CHECK(DivisinMassOnMàxElement(startVector1) == resultVector1);
-		BOOST_CHECK(DivisinMassOnMàxElement(startVector2) == resultVector2);
+		BOOST_CHECK(DivisinonArrayOnMàxElement(startVector1) == resultVector1);
+		BOOST_CHECK(DivisinonArrayOnMàxElement(startVector2) == resultVector2);
 		
 	}
 	BOOST_AUTO_TEST_CASE(CheckFor0)
@@ -24,8 +24,13 @@ BOOST_AUTO_TEST_SUITE(VectorDivisionTest)
 	vector<double> startVector2 = { -2, -2, 0 };
 	vector<double> resultVector2 = { -2, -2, 0 };
 
-	BOOST_CHECK(DivisinMassOnMàxElement(startVector1) == resultVector1);
-	BOOST_CHECK(DivisinMassOnMàxElement(startVector2) == resultVector2);
-
+	BOOST_CHECK(DivisinonArrayOnMàxElement(startVector1) == resultVector1);
+	BOOST_CHECK(DivisinonArrayOnMàxElement(startVector2) == resultVector2);
 }
+	BOOST_AUTO_TEST_CASE(CheckForNull)
+	{
+		vector<double> startVector = {};
+		vector<double> resultVector = {};
+		BOOST_CHECK(DivisinonArrayOnMàxElement(startVector) == resultVector);
+	}
 BOOST_AUTO_TEST_SUITE_END()

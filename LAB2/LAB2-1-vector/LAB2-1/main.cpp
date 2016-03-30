@@ -7,9 +7,9 @@
 int main()
 {
 	vector<double> mainVector = ReadVector();
-	vector<double> resultVector = DivisinMassOnMàxElement(mainVector);
+	vector<double> resultVector = DivisinonArrayOnMàxElement(mainVector);
+	SortVector(resultVector);
 	OutVector(resultVector);
-	system("pause");
     return 0;
 }
 
