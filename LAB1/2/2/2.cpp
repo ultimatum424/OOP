@@ -5,15 +5,16 @@
 #include "math.h"
 
 using namespace std;
+enum err { ok, aEqually0, discriminantLess0};
 int CalculationQuadraticEquation(float coefficients[3], vector <float>& solution)
 {
 	if (coefficients[0] == 0)
 	{
-		return 1;
+		return aEqually0;
 	}
 	if ((coefficients[0] * coefficients[0]) < (4 * coefficients[1] * coefficients[2]))
 	{
-		return 2;
+		return discriminantLess0;
 	}
 	float discriminant = (coefficients[0] * coefficients[0]) - (4 * coefficients[1] * coefficients[2]);
 	if (discriminant == 0)
@@ -25,7 +26,7 @@ int CalculationQuadraticEquation(float coefficients[3], vector <float>& solution
 		solution.push_back(((-coefficients[1]) + sqrt(discriminant)) / 2 * coefficients[0]);
 		solution.push_back(((-coefficients[1]) - sqrt(discriminant)) / 2 * coefficients[0]);
 	}
-	return 0;
+	return ok;
 }
 int ReadCoeff(float coefficients[3], char* argv[])
 {

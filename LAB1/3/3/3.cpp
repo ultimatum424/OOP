@@ -11,6 +11,8 @@ using namespace std;
 
 const int SIZE = 3;
 
+enum err {ok, errOpen, errMatrix};
+
 int ReadFromFile(string nameFile, float  martix[SIZE][SIZE])
 {
 	ifstream inputFile;
@@ -23,14 +25,14 @@ int ReadFromFile(string nameFile, float  martix[SIZE][SIZE])
 				for (size_t j = 0; j < SIZE; j++)
 					if (!(inputFile >> martix[i][j]))
 					{
-						return 2;
+						return errMatrix;
 					}
 		}
-		return 0;
+		return ok;
 	}
 	else
 	{
-		return 1;
+		return errOpen;
 	}
 }
 void MultiplicationMatrix(const float mat1[SIZE][SIZE], const float mat2[SIZE][SIZE], float resultMatrix[SIZE][SIZE])
@@ -72,6 +74,7 @@ int main(int argc, char* argv[])
 
 		int checkRead1 = ReadFromFile(argv[1], martix1);
 		int checkRead2 = ReadFromFile(argv[2], martix2);
+
 		if ((checkRead1 == 1) || (checkRead2 == 1))
 		{
 			cout << "Erorr: Can't open file" << endl;
