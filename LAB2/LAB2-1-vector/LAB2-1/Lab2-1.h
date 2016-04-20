@@ -11,4 +11,4 @@ using namespace std;
 vector<double> ReadVector();
 void OutVector(const vector<double> outVector);
 void SortVector(vector <double>& sortVector);
-vector<double> DivisinonArrayOnMàxElement(const vector<double>& mainVector);
+vector<double> DivisinonArrayOnMàxElement(vector<double>& mainVector);

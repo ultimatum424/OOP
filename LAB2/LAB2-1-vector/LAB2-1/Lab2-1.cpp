@@ -3,28 +3,27 @@
 
 vector<double> ReadVector()
 {
-	cout << "Input nubers or other symbol to stop the input" << endl;
+	cout << "Input numbers or other symbol to stop the input" << endl;
 	vector<double> readVec((istream_iterator<double>(cin)), istream_iterator<double>());
 	return readVec;
 }
 
-vector<double> DivisinonArrayOnMàxElement(const vector<double>& mainVector)
+vector<double> DivisinonArrayOnMàxElement(vector<double>& mainVector)
 {
-	vector <double> dividedVector = mainVector;
-	if (!dividedVector.size())
-		return dividedVector;
+	if (!mainVector.size())
+		return mainVector;
 	double maxNumber = *max_element(mainVector.begin(), mainVector.end());
 	if (maxNumber == 0)
-		return dividedVector;
+		return mainVector;
 	else
 	{
 		maxNumber = maxNumber / 2;
 
-		for (auto& i : dividedVector)
+		for (auto& i : mainVector)
 		{
 			i = i / maxNumber;
 		}
-		return dividedVector;
+		return mainVector;
 	}
 }
 void SortVector(vector <double>& sortVector)
