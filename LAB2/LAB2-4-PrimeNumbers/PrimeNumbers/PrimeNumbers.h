@@ -1,13 +1,9 @@
 #pragma once
-#include <iostream>
-#include <vector>
-#include <math.h>
-#include <iterator>
-#include <fstream>
-#include <set>
-using namespace std;
 
+// TODO: move headers to stdafx + 
 
-vector<bool> CreatingASieve(const int size);
-void SievingSieve(vector<bool>& sieve);
-set<int> CoutingPrimes(vector<bool>& sieve);
+int ReadNumber();
+std::vector<bool> CreatingASieve(const int size);
+void SievingSieve(std::vector<bool>& sieve);
+std::set<int> GetPrimesSet(std::vector<bool>& sieve);
+void OutSetPrime(std::set<int> setOfPrimeNumbers);
