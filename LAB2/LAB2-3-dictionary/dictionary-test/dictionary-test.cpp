@@ -5,6 +5,7 @@
 #include "../dictionary/dictionary.h"
 #include <map>
 
+using namespace std;
 BOOST_AUTO_TEST_SUITE(dictionaryTest)
 
 	BOOST_AUTO_TEST_CASE(Tranclate)

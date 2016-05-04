@@ -2,8 +2,7 @@
 //
 
 #include "stdafx.h"
-#include "dictionary.h"
-
+using namespace std;
 
 
 int main()
@@ -15,7 +14,6 @@ int main()
 	InitDictonary(fileName);
 	dictionaryType dictionary = ReadWorlds(fileName);
 	dictionaryType reverseDictionary = CreatReverseDictionary(dictionary);
-	OutDict(reverseDictionary);
 	string tempString;
 	string tempWord;
 	bool isChange = false;

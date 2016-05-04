@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "dictionary.h"
+using namespace std;
 
 void InitDictonary(string file)
 {
@@ -28,11 +29,6 @@ dictionaryType ReadWorlds(string file)
 	for (size_t i = 0; i < vectorString.size(); i += 2)
 		dictionary[vectorString[i]] = vectorString[i + 1];
 	return dictionary;
-}
-
-void SetLowerCase(dictionaryType& dictionary, dictionaryType& reverseDictionary)
-{
-	//transform(dictionary.begin(), dictionary.end(), dictionary.begin(), tolower);
 }
 
 dictionaryType CreatReverseDictionary(dictionaryType& dictionary)

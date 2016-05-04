@@ -1,4 +1,5 @@
 #pragma once
+#include "stdafx.h"
 #include <map>
 #include <string>
 #include <sstream>
@@ -9,16 +10,15 @@
 #include <fstream>
 #include <algorithm>
 
-using namespace std;
 
-typedef map<string, string> dictionaryType;
+typedef std::map<std::string, std::string> dictionaryType;
 
-void InitDictonary(string file);
-dictionaryType ReadWorlds(string file);
+void InitDictonary(std::string file);
+dictionaryType ReadWorlds(std::string file);
 dictionaryType CreatReverseDictionary(dictionaryType& dictionary);
-string FindTranclate(string word, dictionaryType dictionary, dictionaryType reverseDictionary);
-void AddTranslate(string word1, string word2, dictionaryType& dictionary, dictionaryType& reverseDictionary);
-void SaveDictionary(string fileName, dictionaryType dictionary);
+std::string FindTranclate(std::string word, dictionaryType dictionary, dictionaryType reverseDictionary);
+void AddTranslate(std::string word1, std::string word2, dictionaryType& dictionary, dictionaryType& reverseDictionary);
+void SaveDictionary(std::string fileName, dictionaryType dictionary);
 void OutDict(dictionaryType dictionary);
 
 
