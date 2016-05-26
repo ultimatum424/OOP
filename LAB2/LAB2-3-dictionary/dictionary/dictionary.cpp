@@ -1,19 +1,20 @@
+/*
 #include "stdafx.h"
 #include "dictionary.h"
 using namespace std;
 
-void InitDictonary(string file)
+void InitDictonary(const string &file)
 {
-	ifstream fileDictonary;
-	fileDictonary.open(file);
-	if (!fileDictonary.is_open())
+	ifstream dictonaryFile;
+	dictonaryFile.open(file);
+	if (!dictonaryFile.is_open())
 	{
-		ofstream fileDictonary;
-		fileDictonary.open(file);
+		ofstream dictonaryFile;
+		dictonaryFile.open(file);
 	}
 }
 
-dictionaryType ReadWorlds(string file)
+dictionaryType ReadWords(const string &file)
 {
 	dictionaryType dictionary;
 	ifstream fileDictonary;
@@ -31,7 +32,7 @@ dictionaryType ReadWorlds(string file)
 	return dictionary;
 }
 
-dictionaryType CreatReverseDictionary(dictionaryType& dictionary)
+dictionaryType CreateReverseDictionary(const dictionaryType& dictionary)
 {
 	dictionaryType reverseDictionary;
 	for (auto it = dictionary.begin(); it != dictionary.end(); ++it)
@@ -42,7 +43,7 @@ dictionaryType CreatReverseDictionary(dictionaryType& dictionary)
 	return reverseDictionary;
 }
 
-string FindTranclate(string word, dictionaryType dictionary, dictionaryType reverseDictionary)
+string FindTranclate(const string &word,  dictionaryType &dictionary,  dictionaryType &reverseDictionary)
 {
 	if (dictionary.find(word) != dictionary.end())
 		return dictionary[word];
@@ -52,13 +53,13 @@ string FindTranclate(string word, dictionaryType dictionary, dictionaryType reve
 		return "";
 }
 
-void AddTranslate(string word1, string word2, dictionaryType& dictionary, dictionaryType& reverseDictionary)
+void AddTranslate(const std::string &word1, const std::string &word2, dictionaryType& dictionary, dictionaryType& reverseDictionary)
 {
 	dictionary[word1] = word2;
 	reverseDictionary[word2] = word1;
 }
 
-void SaveDictionary(string fileName, dictionaryType dictionary)
+void SaveDictionary(const string &fileName, dictionaryType &dictionary)
 {
 	ofstream outFile;
 	outFile.open(fileName);
@@ -76,3 +77,4 @@ void OutDict(dictionaryType dictionary)
 		cout << it->second << endl;
 	}
 }
+*/

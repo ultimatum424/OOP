@@ -2,77 +2,38 @@
 //
 
 #include "stdafx.h"
+#include "Cdictonary.h"
+#include "dict.h"
 using namespace std;
-
 
 int main()
 {
+	CDictonary dict;
 	setlocale(LC_ALL, "Russian");
 	string fileName;
+	string inputWord;
+	string tempTranslate;
 	cout << "¬ведите название файла со словарем <им€.расширение> ";
 	cin >> fileName;
-	InitDictonary(fileName);
-	dictionaryType dictionary = ReadWorlds(fileName);
-	dictionaryType reverseDictionary = CreatReverseDictionary(dictionary);
-	string tempString;
-	string tempWord;
-	bool isChange = false;
-	int levelWork = 2;
-	while (levelWork)
-	{	
-		cin >> tempString;
-		if (levelWork == 1)
+	dict.SetFileName(fileName);
+	dict.InitDictonary();
+	dict.ReadWords();
+	dict.CreateReverseDictionary();
+	while (!(dict.IfState(CDictonary::States::EXIT)))
+	{
+		cin >> inputWord;
+		if (dict.IfState(CDictonary::States::CHANGES))
 		{
-			transform(tempString.begin(), tempString.end(), tempString.begin(), tolower);
-			if (tempString == "y")
-			{
-				SaveDictionary(fileName, dictionary);
-				levelWork = 0;
-				cout << "»зменени€ сохраненый";
-			}
-			else if (tempString == "n")
-				levelWork = 0;
+			SaveChanges(inputWord, dict);
 		}
-		else if (levelWork == 2)
+		else if (dict.IfState(CDictonary::States::WAIT_WORD))
 		{
-			if (tempString == "...")
-			{
-				if (isChange)
-				{
-					cout << "—охрнаить изменеи€ Y/N ? ";
-					levelWork--;
-				}
-				else if (!isChange)
-					levelWork = 0;
-			}	
-			else
-			{
-				string tranclateWord = FindTranclate(tempString, dictionary, reverseDictionary);
-				if (tranclateWord != "")
-					cout << tranclateWord << endl;
-				else
-				{
-					cout << "Ќеизвестное слово У" << tempString << "Ф .¬ведите перевод или пустую строку дл€ отказа." << endl;
-					levelWork++;
-					tempWord = tempString;
-				}
-			}
+			WaitingWord(inputWord, tempTranslate, dict);
 		}
-		else if (levelWork == 3)
+		else if (dict.IfState(CDictonary::States::WAIT_TRANSLATE))
 		{
-			if (tempString == "...")
-			{
-				cout << "Cлово " << tempWord <<  " проигнорировано" << endl;
-				levelWork--;
-			}
-			else
-			{
-				AddTranslate(tempString, tempWord, dictionary, reverseDictionary);
-				cout << "—лово У" << tempString << "Ф сохранено в словаре как У" << tempWord << "Ф." << endl;
-				levelWork--;
-				isChange = true;
-			}
+			WaitingTranslation(inputWord, tempTranslate, dict);
 		}
-		
+
 	}
 }

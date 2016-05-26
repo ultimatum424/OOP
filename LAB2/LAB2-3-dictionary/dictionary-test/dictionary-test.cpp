@@ -1,36 +1,38 @@
-// dictionary-test.cpp: определяет точку входа для консольного приложения.
+п»ї// dictionary-test.cpp: РѕРїСЂРµРґРµР»СЏРµС‚ С‚РѕС‡РєСѓ РІС…РѕРґР° РґР»СЏ РєРѕРЅСЃРѕР»СЊРЅРѕРіРѕ РїСЂРёР»РѕР¶РµРЅРёСЏ.
 //
 
 #include "stdafx.h"
-#include "../dictionary/dictionary.h"
-#include <map>
+#include "../dictionary/Cdictonary.h"
+
 
 using namespace std;
-BOOST_AUTO_TEST_SUITE(dictionaryTest)
+struct Cdictonary_
+{
+	CDictonary dict;
+};
+typedef std::map<std::string, std::string> dictionaryType;
+BOOST_FIXTURE_TEST_SUITE(dictt, Cdictonary_)
 
 	BOOST_AUTO_TEST_CASE(Tranclate)
 	{
-	map <string, string> dict = { {"dog", "собака"}, {"cat", "кошка"} };
-	map <string, string> rdict = { { "собака", "dog" },{ "кошка", "cat" } };
-	BOOST_CHECK_EQUAL(FindTranclate("dog", dict, rdict), "собака");
-	BOOST_CHECK_EQUAL(FindTranclate("qwerty", dict, rdict), "");
+		dict.SetDictionary({ {"dog", "СЃРѕР±Р°РєР°"}, {"cat", "РєРѕС€РєР°"} });
+		dict.SetReverseDictionary({ { "СЃРѕР±Р°РєР°", "dog" },{ "РєРѕС€РєР°", "cat" } });
+		BOOST_CHECK(dict.GetTranclate("dog") == "СЃРѕР±Р°РєР°");
+		BOOST_CHECK(dict.GetTranclate("qwery") == "");
 	}
 
 	BOOST_AUTO_TEST_CASE(AddWord)
 	{
-	map <string, string> dict;
-	map <string, string> rdict;
-	map <string, string> rightDict = { { "dog", "собака" } };
-	AddTranslate("dog", "собака", dict, rdict);
-	BOOST_CHECK(dict == rightDict);
+		dictionaryType rightDict = { { "dog", "СЃРѕР±Р°РєР°" } };
+		dict.AddTranslate("dog", "СЃРѕР±Р°РєР°");
+		BOOST_CHECK(dict.GetDictionary() == rightDict);
 	}
 
 	BOOST_AUTO_TEST_CASE(CheckReverseDictionary)
 	{
-		map <string, string> dict = { {"12", "11"} };
-		map <string, string> rdict = CreatReverseDictionary(dict);
-		map <string, string> rightDict = { { "11", "12" } };
-	BOOST_CHECK(rdict == rightDict);
+		dict.SetDictionary( { { "12", "11" } });
+		dict.CreateReverseDictionary();
+		dictionaryType rightDict = { { "11", "12" } };
+		BOOST_CHECK(dict.GetReverseDictionary() == rightDict);
 	}
-
 BOOST_AUTO_TEST_SUITE_END()
