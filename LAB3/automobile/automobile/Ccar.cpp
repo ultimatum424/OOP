@@ -65,99 +65,100 @@ bool CCar::CanChangeGear(int inputGear) const
 bool CCar::SetGear(int inputGear)
 {
 	bool isChangeGear = false;
-	// TODO: decrease nesting level.
-	if ((inputGear >= -1 && inputGear <= 5))
+	// TODO: decrease nesting level. +
+	if (!(inputGear >= -1 && inputGear <= 5))
 	{
-		if ((m_statusMotor) || (inputGear == 0))
+		cout << "Выбранной передачи не существует" << endl;
+		return isChangeGear;
+	}
+	else if (!(m_statusMotor || inputGear == 0))
+	{
+		cout << "Включите двигатель" << endl;
+		return isChangeGear;
+	}
+	switch (inputGear)
 		{
-			switch (inputGear)
+		case -1:
+		{
+			if (m_speed == 0)
 			{
-			case -1:
-			{
-				if (m_speed == 0)
+				if (CCar::m_gear == 0 || CCar::m_gear == 1)
 				{
-					if ((CCar::m_gear == 0) || (CCar::m_gear == 1))
-					{
-						CCar::m_gear = inputGear;
-						isChangeGear = true;
-					}
-					else
-						cout << "С " << CCar::m_gear << "передачи невозможно перейти на заднюю." << endl;
+					CCar::m_gear = inputGear;
+					isChangeGear = true;
 				}
 				else
 				{
-					if (inputGear == CCar::m_gear)
-					{
-						isChangeGear = true;
-						CCar::m_gear = inputGear;
-					}
-					else
-					{
-						isChangeGear = false;
-						cout << "Невозможно переключить, остановите машину для начала" << endl;
-					}
+					cout << "С " << CCar::m_gear << "передачи невозможно перейти на заднюю." << endl;
 				}
-				break;
 			}
-			case 0:
+			else
+			{
+				if (inputGear == CCar::m_gear)
+				{
+					isChangeGear = true;
+					CCar::m_gear = inputGear;
+				}
+				else
+				{
+					isChangeGear = false;
+					cout << "Невозможно переключить, остановите машину для начала" << endl;
+				}
+			}
+			break;
+		}
+		case 0:
+		{
+			isChangeGear = true;
+			CCar::m_gear = inputGear;
+			break;
+		}
+		case 1:
+		{
+			if ((CCar::m_gear == -1) && (m_speed == 0))
 			{
 				isChangeGear = true;
 				CCar::m_gear = inputGear;
-				break;
 			}
-			case 1:
+			else if ((CCar::m_gear == 0) && (m_directionMovement != -1))
 			{
-				if ((CCar::m_gear == -1) && (m_speed == 0))
-				{
-					isChangeGear = true;
-					CCar::m_gear = inputGear;
-				}
-				else if ((CCar::m_gear == 0) && (m_directionMovement != -1))
-				{
-					isChangeGear = true;
-					CCar::m_gear = inputGear;
-				}
-				else if (CanChangeGear(inputGear) == 1)
-				{
-					isChangeGear = true;
-					CCar::m_gear = inputGear;
-				}
-				else
-				{
-					if (CCar::m_gear == -1)
-						cout << " Остановитесь для переключения передачи " << endl;
-					else if (!(CanChangeGear(inputGear)))
-						cout << " Невозможно переключение на данной скорости " << endl;
-				}
-				break;
+				isChangeGear = true;
+				CCar::m_gear = inputGear;
 			}
-			default:
+			else if (CanChangeGear(inputGear) == 1)
 			{
-				if (CanChangeGear(inputGear))
+				isChangeGear = true;
+				CCar::m_gear = inputGear;
+			}
+			else
+			{
+				if (CCar::m_gear == -1)
 				{
-					CCar::m_gear = inputGear;
-					isChangeGear = true;
+					cout << " Остановитесь для переключения передачи " << endl;
 				}
-				else
+				else if (!(CanChangeGear(inputGear)))
 				{
 					cout << " Невозможно переключение на данной скорости " << endl;
-					isChangeGear = false;
 				}
-				break;
 			}
-			}
+			break;
 		}
-		else
+		default:
 		{
-			cout << "Включите двигатель" << endl;
+			if (CanChangeGear(inputGear))
+			{
+				CCar::m_gear = inputGear;
+				isChangeGear = true;
+			}
+			else
+			{
+				cout << " Невозможно переключение на данной скорости " << endl;
+				isChangeGear = false;
+			}
+			break;
 		}
-	}
-	else
-	{
-		cout << "Выбранной передачи не существует" << endl;
-	}
-	CCar::ChangeDirectionMovement();
-
+		}
+	ChangeDirectionMovement();
 	return isChangeGear;
 }
 
@@ -210,15 +211,8 @@ void CCar::ChangeDirectionMovement()
 	}
 	else if (m_directionMovement == 0)
 	{
-		// TODO: use "x?a:b"
-		if (m_gear == -1)
-		{
-			m_directionMovement = -1;
-		}
-		else
-		{
-			m_directionMovement = 1;
-		}
+		// TODO: use "x?a:b" +
+		((m_gear == -1) ? m_directionMovement = -1 : m_directionMovement = 1);
 	}
 }
 
