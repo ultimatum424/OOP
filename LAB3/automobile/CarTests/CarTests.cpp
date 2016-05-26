@@ -1,4 +1,4 @@
-// CarTests.cpp: определяет точку входа для консольного приложения.
+п»ї// CarTests.cpp: РѕРїСЂРµРґРµР»СЏРµС‚ С‚РѕС‡РєСѓ РІС…РѕРґР° РґР»СЏ РєРѕРЅСЃРѕР»СЊРЅРѕРіРѕ РїСЂРёР»РѕР¶РµРЅРёСЏ.
 //
 
 #include "stdafx.h"
@@ -6,42 +6,54 @@
 
 struct CarSetFixture
 {
-	Ccar car;
+	CCar car;
 };
 
 BOOST_FIXTURE_TEST_SUITE(Car, CarSetFixture)
 
-BOOST_AUTO_TEST_CASE(car_engine_turned_off_by_default)
+BOOST_AUTO_TEST_CASE(CarEngineTurnOffWhenEngineOff)
 {
 	BOOST_CHECK(!car.TurnOffEngine());
 }
 
-BOOST_AUTO_TEST_CASE(cant_set_speed_when_engine_turned_off)
+BOOST_AUTO_TEST_CASE(SetSpeedWhenEngineOff)
 {
 	BOOST_CHECK(!car.SetSpeed(10));
 }
 
-BOOST_AUTO_TEST_CASE(car_engine_can_be_turned_on)
+BOOST_AUTO_TEST_CASE(SetGearWhenEngineOff)
+{
+	BOOST_CHECK(car.SetGear(0));
+	BOOST_CHECK(!car.SetGear(-1));
+	BOOST_CHECK(!car.SetGear(1));
+	BOOST_CHECK(!car.SetGear(2));
+	BOOST_CHECK(!car.SetGear(3));
+	BOOST_CHECK(!car.SetGear(4));
+	BOOST_CHECK(!car.SetGear(5));
+}
+
+
+BOOST_AUTO_TEST_CASE(CarEngineOn)
 {
 	BOOST_CHECK(car.TurnOnEngine());
 }
 
-struct when_engine_turned_on_ : CarSetFixture
+struct engineOn : CarSetFixture
 {
-	when_engine_turned_on_()
+	engineOn()
 	{
 		car.TurnOnEngine();
 	}
 };
 
-BOOST_FIXTURE_TEST_SUITE(when_engine_turned_on, when_engine_turned_on_)
+BOOST_FIXTURE_TEST_SUITE(when_engine_turned_on, engineOn)
 
-BOOST_AUTO_TEST_CASE(can_set_gear)
+BOOST_AUTO_TEST_CASE(Set1Gear)
 {
 	BOOST_CHECK(car.SetGear(1));
 }
 
-BOOST_AUTO_TEST_CASE(can_set_speed_in_all_of_6_gear_if_speed_in_transmission_range)
+BOOST_AUTO_TEST_CASE(CanNotSetSpeed150On5Gear)
 {
 	BOOST_CHECK(car.SetGear(1));
 	BOOST_CHECK(car.SetSpeed(0));
@@ -56,13 +68,13 @@ BOOST_AUTO_TEST_CASE(can_set_speed_in_all_of_6_gear_if_speed_in_transmission_ran
 	BOOST_CHECK(car.SetSpeed(150));
 }
 
-BOOST_AUTO_TEST_CASE(cant_set_if_speed_not_in_transmission_range)
+BOOST_AUTO_TEST_CASE(CanNotSetSpeedMore)
 {
 	BOOST_CHECK(car.SetGear(1));
 	BOOST_CHECK(!car.SetSpeed(50));
 }
 
-BOOST_AUTO_TEST_CASE(on_zero_gear_of_transmission_only_can_set_speed_smaller_than_it_have)
+BOOST_AUTO_TEST_CASE(ChangeSpeedOnNeutralGear)
 {
 	BOOST_CHECK(car.SetGear(1));
 	BOOST_CHECK(car.SetSpeed(30));
@@ -72,7 +84,7 @@ BOOST_AUTO_TEST_CASE(on_zero_gear_of_transmission_only_can_set_speed_smaller_tha
 	BOOST_CHECK(!car.SetSpeed(21));
 }
 
-BOOST_AUTO_TEST_CASE(cant_set_back_gear_while_car_move_foward)
+BOOST_AUTO_TEST_CASE(SetReverseGear)
 {
 	BOOST_CHECK(car.SetGear(1));
 	BOOST_CHECK(car.SetSpeed(30));
@@ -83,7 +95,7 @@ BOOST_AUTO_TEST_CASE(cant_set_back_gear_while_car_move_foward)
 	BOOST_CHECK(car.SetSpeed(20));
 }
 
-BOOST_AUTO_TEST_CASE(cant_set_1_gear_while_car_move_back)
+BOOST_AUTO_TEST_CASE(Set1GearWhenMoveBack)
 {
 	BOOST_CHECK(car.SetGear(-1));
 	BOOST_CHECK(car.SetSpeed(20));
@@ -95,7 +107,7 @@ BOOST_AUTO_TEST_CASE(cant_set_1_gear_while_car_move_back)
 	BOOST_CHECK(car.SetGear(1));
 }
 
-BOOST_AUTO_TEST_CASE(engine_can_be_turned_off_only_if_car_stay_and_transmission_on_zero)
+BOOST_AUTO_TEST_CASE(EngineOff)
 {
 	BOOST_CHECK(car.SetGear(1));
 

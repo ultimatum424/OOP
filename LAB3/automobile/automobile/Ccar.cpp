@@ -1,211 +1,255 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "Ccar.h"
 
 
 
-Ccar::Ccar()
-	:gear(0)
-	, speed(0)
-	, statusMotor(false)
-	, directionMovement(0)
-	, mapSpeed({ { -1,{ 0, 20 } },{ 0,{ 0, INT_MAX } },
+CCar::CCar()
+	:m_gear(0)
+	, m_speed(0)
+	, m_statusMotor(false)
+	, m_directionMovement(0)
+	, m_gearSpeedRangesMap({ { -1,{ 0, 20 } },{ 0,{ 0, INT_MAX } },
 	{ 1,{ 0, 30 } },{ 2,{ 20, 50 } },{ 3,{ 30, 60 } },
 	{ 4,{ 40, 90 } },{ 5,{ 50, 150 } } })
 {
 }
-/*
-Ccar::~Ccar()
+
+CCar::~CCar()
 {
 }
-*/
-bool Ccar::TurnOnEngine()
+
+bool CCar::TurnOnEngine()
 {
-	if (!Ccar::statusMotor)
+	if ((!CCar::m_statusMotor) && (m_gear == 0))
 	{
-		Ccar::statusMotor = true;
+		CCar::m_statusMotor = true;
 		return true;
 	}
 	else
 	{
-		cout << "Äâèãàòåëü àâòîìîáèëÿ óæå âêëþ÷åí" << endl;
+		cout << "Ð”Ð²Ð¸Ð³Ð°Ñ‚ÐµÐ»ÑŒ Ð°Ð²Ñ‚Ð¾Ð¼Ð¾Ð±Ð¸Ð»Ñ ÑƒÐ¶Ðµ Ð²ÐºÐ»ÑŽÑ‡ÐµÐ½" << endl;
 		return false;
 	}
 }
 
-bool Ccar::TurnOffEngine()
+bool CCar::TurnOffEngine()
 {
-	if ((Ccar::statusMotor) && (Ccar::gear == 0) && (Ccar::speed == 0))
+	if ((CCar::m_statusMotor) && (CCar::m_gear == 0) && (CCar::m_speed == 0))
 	{
-		Ccar::statusMotor = false;
+		CCar::m_statusMotor = false;
 		return true;
 	}
 	else
 	{
-		if (!statusMotor)
-			cout << "Äâèãàòåëü óæå âûêëþ÷åí" << endl;
-		else if (gear != 0)
-			cout << "Êîðîáêà ïåðåäà÷ íå â íåéòðàëè. Ïåðåêëþ÷èòå êîðîáêó â íåéòðàëüíîå ïîëîæåíèå" << endl;
-		else if (speed)
-			cout << "Ìàøèíà äâèæåòñÿ. Äëÿ íà÷àëà îñòàíîâèòå ìàøèíó" << endl;
+		if (!m_statusMotor)
+			cout << "Ð”Ð²Ð¸Ð³Ð°Ñ‚ÐµÐ»ÑŒ ÑƒÐ¶Ðµ Ð²Ñ‹ÐºÐ»ÑŽÑ‡ÐµÐ½" << endl;
+		else if (m_gear != 0)
+			cout << "ÐšÐ¾Ñ€Ð¾Ð±ÐºÐ° Ð¿ÐµÑ€ÐµÐ´Ð°Ñ‡ Ð½Ðµ Ð² Ð½ÐµÐ¹Ñ‚Ñ€Ð°Ð»Ð¸. ÐŸÐµÑ€ÐµÐºÐ»ÑŽÑ‡Ð¸Ñ‚Ðµ ÐºÐ¾Ñ€Ð¾Ð±ÐºÑƒ Ð² Ð½ÐµÐ¹Ñ‚Ñ€Ð°Ð»ÑŒÐ½Ð¾Ðµ Ð¿Ð¾Ð»Ð¾Ð¶ÐµÐ½Ð¸Ðµ" << endl;
+		else if (m_speed)
+			cout << "ÐœÐ°ÑˆÐ¸Ð½Ð° Ð´Ð²Ð¸Ð¶ÐµÑ‚ÑÑ. Ð”Ð»Ñ Ð½Ð°Ñ‡Ð°Ð»Ð° Ð¾ÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚Ðµ Ð¼Ð°ÑˆÐ¸Ð½Ñƒ" << endl;
 		return false;
 	}
 }
 
-bool Ccar::PossibilityOfChangeGear(int inputGear)
+bool CCar::IsBetween(int x, int min, int max) const
 {
-	if ((Ccar::directionMovement != -1) && ((speed >= mapSpeed[inputGear][0]) && (speed <= mapSpeed[inputGear][1])))
-		return true;
-	else
-		return false;
-
+	return ((x >= min) && (x <= max));
+}
+bool CCar::CanChangeGear(int inputGear) const
+{
+	
+	return (m_directionMovement != -1) &&
+		IsBetween(m_speed, m_gearSpeedRangesMap.at(inputGear)[0], m_gearSpeedRangesMap.at(inputGear)[1]);
 }
 
-bool Ccar::SetGear(int inputGear)
+bool CCar::SetGear(int inputGear)
 {
 	bool isChangeGear = false;
-	if ((inputGear >= -1) && (inputGear <= 5))
+	// TODO: decrease nesting level.
+	if ((inputGear >= -1 && inputGear <= 5))
 	{
-		switch (inputGear)
+		if ((m_statusMotor) || (inputGear == 0))
 		{
-		case -1:
-		{
-			if (speed == 0)
+			switch (inputGear)
 			{
-				if ((Ccar::gear == 0) || (Ccar::gear == 1))
-				{
-					Ccar::gear = inputGear;
-					isChangeGear = true;
-				}	
-				else
-					cout << "Ñ " << Ccar::gear << "ïåðåäà÷è íåâîçìîæíî ïåðåéòè íà çàäíþþ." << endl;
-			}
-			else
+			case -1:
 			{
-				if (inputGear == Ccar::gear)
+				if (m_speed == 0)
 				{
-					isChangeGear = true;
-					Ccar::gear = inputGear;
+					if ((CCar::m_gear == 0) || (CCar::m_gear == 1))
+					{
+						CCar::m_gear = inputGear;
+						isChangeGear = true;
+					}
+					else
+						cout << "Ð¡ " << CCar::m_gear << "Ð¿ÐµÑ€ÐµÐ´Ð°Ñ‡Ð¸ Ð½ÐµÐ²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ Ð¿ÐµÑ€ÐµÐ¹Ñ‚Ð¸ Ð½Ð° Ð·Ð°Ð´Ð½ÑŽÑŽ." << endl;
 				}
 				else
 				{
+					if (inputGear == CCar::m_gear)
+					{
+						isChangeGear = true;
+						CCar::m_gear = inputGear;
+					}
+					else
+					{
+						isChangeGear = false;
+						cout << "ÐÐµÐ²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ Ð¿ÐµÑ€ÐµÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑŒ, Ð¾ÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚Ðµ Ð¼Ð°ÑˆÐ¸Ð½Ñƒ Ð´Ð»Ñ Ð½Ð°Ñ‡Ð°Ð»Ð°" << endl;
+					}
+				}
+				break;
+			}
+			case 0:
+			{
+				isChangeGear = true;
+				CCar::m_gear = inputGear;
+				break;
+			}
+			case 1:
+			{
+				if ((CCar::m_gear == -1) && (m_speed == 0))
+				{
+					isChangeGear = true;
+					CCar::m_gear = inputGear;
+				}
+				else if ((CCar::m_gear == 0) && (m_directionMovement != -1))
+				{
+					isChangeGear = true;
+					CCar::m_gear = inputGear;
+				}
+				else if (CanChangeGear(inputGear) == 1)
+				{
+					isChangeGear = true;
+					CCar::m_gear = inputGear;
+				}
+				else
+				{
+					if (CCar::m_gear == -1)
+						cout << " ÐžÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚ÐµÑÑŒ Ð´Ð»Ñ Ð¿ÐµÑ€ÐµÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ñ Ð¿ÐµÑ€ÐµÐ´Ð°Ñ‡Ð¸ " << endl;
+					else if (!(CanChangeGear(inputGear)))
+						cout << " ÐÐµÐ²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ Ð¿ÐµÑ€ÐµÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ðµ Ð½Ð° Ð´Ð°Ð½Ð½Ð¾Ð¹ ÑÐºÐ¾Ñ€Ð¾ÑÑ‚Ð¸ " << endl;
+				}
+				break;
+			}
+			default:
+			{
+				if (CanChangeGear(inputGear))
+				{
+					CCar::m_gear = inputGear;
+					isChangeGear = true;
+				}
+				else
+				{
+					cout << " ÐÐµÐ²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ Ð¿ÐµÑ€ÐµÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ðµ Ð½Ð° Ð´Ð°Ð½Ð½Ð¾Ð¹ ÑÐºÐ¾Ñ€Ð¾ÑÑ‚Ð¸ " << endl;
 					isChangeGear = false;
-					cout << "Íåâîçìîæíî ïåðåêëþ÷èòü, îñòàíîâèòå ìàøèíó äëÿ íà÷àëà" << endl;
 				}
+				break;
 			}
-			break;
+			}
 		}
-		case 0:
+		else
 		{
-			isChangeGear = true;
-			Ccar::gear = inputGear;
-			break;
-		}
-		case 1:
-		{
-			if ((Ccar::gear == -1) && (speed == 0))
-			{
-				isChangeGear = true;
-				Ccar::gear = inputGear;
-			}
-			else if ((Ccar::gear == 0) && (directionMovement != -1))
-			{
-				isChangeGear = true;
-				Ccar::gear = inputGear;
-			}
-			else if (PossibilityOfChangeGear(inputGear) == 1)
-			{
-				isChangeGear = true;
-				Ccar::gear = inputGear;
-			}
-			else
-			{
-				if (Ccar::gear == -1)
-					cout << " Îñòàíîâèòåñü äëÿ ïåðåêëþ÷åíèÿ ïåðåäà÷è " << endl;
-				else if (!(PossibilityOfChangeGear(inputGear)))
-					cout << " Íåâîçìîæíî ïåðåêëþ÷åíèå íà äàííîé ñêîðîñòè " << endl;
-			}
-			break;
-		}
-		default:
-		{
-			if (PossibilityOfChangeGear(inputGear))
-			{
-				Ccar::gear = inputGear;
-				isChangeGear = true;
-			}
-			else
-			{
-				cout << " Íåâîçìîæíî ïåðåêëþ÷åíèå íà äàííîé ñêîðîñòè " << endl;
-				isChangeGear = false;
-			}
-			break;
-		}
+			cout << "Ð’ÐºÐ»ÑŽÑ‡Ð¸Ñ‚Ðµ Ð´Ð²Ð¸Ð³Ð°Ñ‚ÐµÐ»ÑŒ" << endl;
 		}
 	}
 	else
-		cout << "Âûáðàííîé ïåðåäà÷è íå ñóùåñòâóåò" << endl;
-	Ccar::ChangeDirectionMovement();
+	{
+		cout << "Ð’Ñ‹Ð±Ñ€Ð°Ð½Ð½Ð¾Ð¹ Ð¿ÐµÑ€ÐµÐ´Ð°Ñ‡Ð¸ Ð½Ðµ ÑÑƒÑ‰ÐµÑÑ‚Ð²ÑƒÐµÑ‚" << endl;
+	}
+	CCar::ChangeDirectionMovement();
+
 	return isChangeGear;
 }
 
-bool Ccar::SetSpeed(int inputSpeed)
+bool CCar::SetSpeed(int inputSpeed)
 {
-	bool isChangeSpeed = false;
-	if ((gear != 0) && (statusMotor))
+	bool didChangeSpeed = false;
+	if ((m_gear != 0) && (m_statusMotor))
 	{
-		if ((inputSpeed >= mapSpeed[gear][0]) && (inputSpeed <= mapSpeed[gear][1]))
+		// TODO: make function IsBetween(x, min, max) +
+		if (IsBetween(inputSpeed, m_gearSpeedRangesMap[m_gear][0], m_gearSpeedRangesMap[m_gear][1]))
 		{
-			isChangeSpeed = true;
-			Ccar::speed = inputSpeed;
+			didChangeSpeed = true;
+			CCar::m_speed = inputSpeed;
 		}
-		else
-			cout << "âûáðàííàÿ ñêîðîñòü íå ñîîòâåòñòâóåò âûñòàâëåííîé ïåðåäà÷è. Ñìåíèòå ïåðåäà÷ó" << endl;
+		else // TODO: add {} +
+		{
+			cout << "Ð²Ñ‹Ð±Ñ€Ð°Ð½Ð½Ð°Ñ ÑÐºÐ¾Ñ€Ð¾ÑÑ‚ÑŒ Ð½Ðµ ÑÐ¾Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²ÑƒÐµÑ‚ Ð²Ñ‹ÑÑ‚Ð°Ð²Ð»ÐµÐ½Ð½Ð¾Ð¹ Ð¿ÐµÑ€ÐµÐ´Ð°Ñ‡Ð¸. Ð¡Ð¼ÐµÐ½Ð¸Ñ‚Ðµ Ð¿ÐµÑ€ÐµÐ´Ð°Ñ‡Ñƒ" << endl;
+		}
 	}
 	else
 	{
-		if ((gear == 0) && (statusMotor) && (inputSpeed <= Ccar::speed))
+		// TODO: check that inputSpeed isn't negative  +
+		if ((m_gear == 0) && (m_statusMotor) && (inputSpeed <= m_speed) && (inputSpeed >= 0))
 		{
-			isChangeSpeed = true;
-			Ccar::speed = inputSpeed;
+			didChangeSpeed = true;
+			m_speed = inputSpeed;
 		}
-		else
-			cout << "Óâåëè÷èòü ñêîðîñòü ïðè âêëþ÷åííîé íåéòðàëè íåâîçìîæíî" << endl;
+		else // TODO: add {} +
+		{
+			cout << "Ð£Ð²ÐµÐ»Ð¸Ñ‡Ð¸Ñ‚ÑŒ ÑÐºÐ¾Ñ€Ð¾ÑÑ‚ÑŒ Ð¿Ñ€Ð¸ Ð²ÐºÐ»ÑŽÑ‡ÐµÐ½Ð½Ð¾Ð¹ Ð½ÐµÐ¹Ñ‚Ñ€Ð°Ð»Ð¸ Ð½ÐµÐ²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾" << endl;
+		}
 	}
-	Ccar::ChangeDirectionMovement();
-	return isChangeSpeed;
+	ChangeDirectionMovement();
+	return didChangeSpeed;
 }
 
-void Ccar::ChangeDirectionMovement()
+void CCar::ChangeDirectionMovement()
 {
-	if (speed == 0)
-		directionMovement = 0;
-	else
+	if (m_speed == 0)
 	{
-		if (gear >= 0)
-			directionMovement = 1;
-		else if (gear == -1)
-			directionMovement = -1;
+		m_directionMovement = 0;
+	}
+	else if ((m_directionMovement == 1) && (m_gear > 0))
+	{
+		m_directionMovement = 1;
+	}
+	else if ((m_directionMovement == -1) && (m_gear == -1))
+	{
+		m_directionMovement = -1;
+	}
+	else if (m_directionMovement == 0)
+	{
+		// TODO: use "x?a:b"
+		if (m_gear == -1)
+		{
+			m_directionMovement = -1;
+		}
+		else
+		{
+			m_directionMovement = 1;
+		}
 	}
 }
 
-void Ccar::OutInfo()
+void CCar::OutInfo() const
 {
-	cout << "Ñòàòóñ àâòîìîáèëÿ: " << endl;
-	if (statusMotor)
-		cout << "Äâèãàòåëü âêëþ÷åí" << endl;
-	else
-		cout << "Äâèãàòåëü âûêëþ÷åí" << endl;
-	cout << "Âûáðàíà " << gear << " ïåðåäà÷à" << endl;
-	if (directionMovement == 0)
-		cout << "Ìàøèíà ñòîèò íà ìåñòå" << endl;
+	cout << "Ð¡Ñ‚Ð°Ñ‚ÑƒÑ Ð°Ð²Ñ‚Ð¾Ð¼Ð¾Ð±Ð¸Ð»Ñ: " << endl;
+	if (m_statusMotor)
+	{
+		cout << "Ð”Ð²Ð¸Ð³Ð°Ñ‚ÐµÐ»ÑŒ Ð²ÐºÐ»ÑŽÑ‡ÐµÐ½" << endl;
+	}
 	else
 	{
-		if (directionMovement == 1)
-			cout << "Ìàøèíà äâèæåòñÿ âïåð¸ä" << endl;
-		else if (directionMovement == -1)
-			cout << "Ìàøèíà äâèæåòñÿ çàäíèì õîäîì" << endl;
-
-		cout << "Ìàøèíà äâèæåòñÿ ñî ñêîðîñòüþ " << speed << " êì/÷" << endl;
+		cout << "Ð”Ð²Ð¸Ð³Ð°Ñ‚ÐµÐ»ÑŒ Ð²Ñ‹ÐºÐ»ÑŽÑ‡ÐµÐ½" << endl;
+	}
+	cout << "Ð’Ñ‹Ð±Ñ€Ð°Ð½Ð° " << m_gear << " Ð¿ÐµÑ€ÐµÐ´Ð°Ñ‡Ð°" << endl;
+	if (m_directionMovement == 0)
+	{
+		cout << "ÐœÐ°ÑˆÐ¸Ð½Ð° ÑÑ‚Ð¾Ð¸Ñ‚ Ð½Ð° Ð¼ÐµÑÑ‚Ðµ" << endl;
+	}
+	else
+	{
+		// TODO: add {}1 +
+		if (m_directionMovement == 1)
+		{
+			cout << "ÐœÐ°ÑˆÐ¸Ð½Ð° Ð´Ð²Ð¸Ð¶ÐµÑ‚ÑÑ Ð²Ð¿ÐµÑ€Ñ‘Ð´" << endl;
+		}
+		else if (m_directionMovement == -1)
+		{
+			cout << "ÐœÐ°ÑˆÐ¸Ð½Ð° Ð´Ð²Ð¸Ð¶ÐµÑ‚ÑÑ Ð·Ð°Ð´Ð½Ð¸Ð¼ Ñ…Ð¾Ð´Ð¾Ð¼" << endl;
+		}
+		cout << "ÐœÐ°ÑˆÐ¸Ð½Ð° Ð´Ð²Ð¸Ð¶ÐµÑ‚ÑÑ ÑÐ¾ ÑÐºÐ¾Ñ€Ð¾ÑÑ‚ÑŒÑŽ " << m_speed << " ÐºÐ¼/Ñ‡" << endl;
 	}
 	
 
