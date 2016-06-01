@@ -46,11 +46,49 @@ struct engineOn : CarSetFixture
 	}
 };
 
-BOOST_FIXTURE_TEST_SUITE(when_engine_turned_on, engineOn)
+BOOST_FIXTURE_TEST_SUITE(EngineTurnedOn, engineOn)
 
 BOOST_AUTO_TEST_CASE(Set1Gear)
 {
 	BOOST_CHECK(car.SetGear(1));
+}
+
+BOOST_AUTO_TEST_CASE(SetIncorrectGear)
+{
+	BOOST_CHECK(!car.SetGear(-2));
+	BOOST_CHECK(!car.SetGear(6));
+}
+
+BOOST_AUTO_TEST_CASE(SetIncorrectSpeed)
+{
+	BOOST_CHECK(car.SetGear(-1));
+	BOOST_CHECK(!car.SetSpeed(-1));
+	BOOST_CHECK(!car.SetSpeed(21));
+	BOOST_CHECK(car.SetSpeed(0));
+
+	BOOST_CHECK(car.SetGear(1));
+	BOOST_CHECK(!car.SetSpeed(-10));
+	BOOST_CHECK(!car.SetSpeed(31));
+	BOOST_CHECK(car.SetSpeed(25));
+
+	BOOST_CHECK(car.SetGear(2));
+	BOOST_CHECK(!car.SetSpeed(19));
+	BOOST_CHECK(!car.SetSpeed(51));
+	BOOST_CHECK(car.SetSpeed(50));
+
+	BOOST_CHECK(car.SetGear(3));
+	BOOST_CHECK(!car.SetSpeed(29));
+	BOOST_CHECK(!car.SetSpeed(61));
+	BOOST_CHECK(car.SetSpeed(60));
+
+	BOOST_CHECK(car.SetGear(4));
+	BOOST_CHECK(!car.SetSpeed(39));
+	BOOST_CHECK(!car.SetSpeed(91));
+	BOOST_CHECK(car.SetSpeed(90));
+
+	BOOST_CHECK(car.SetGear(5));
+	BOOST_CHECK(!car.SetSpeed(49));
+	BOOST_CHECK(!car.SetSpeed(151));
 }
 
 BOOST_AUTO_TEST_CASE(CanNotSetSpeed150On5Gear)
