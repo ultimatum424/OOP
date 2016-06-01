@@ -2,6 +2,7 @@
 #include <map>
 #include <vector>
 #include <iostream>
+#include <utility>
 
 using namespace std;
 
@@ -26,7 +27,7 @@ private:
 	bool CanChangeGear(int inputGear) const;
 	void ChangeDirectionMovement();
 	
-	map <int, vector<int>> m_gearSpeedRangesMap;
+	map <int, std::pair<int, int>> m_gearSpeedRangesMap;
 	bool m_statusMotor;
 	int m_directionMovement;
 	int m_speed;

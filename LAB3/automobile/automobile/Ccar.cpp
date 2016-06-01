@@ -59,7 +59,7 @@ bool CCar::CanChangeGear(int inputGear) const
 {
 	
 	return (m_directionMovement != -1) &&
-		IsBetween(m_speed, m_gearSpeedRangesMap.at(inputGear)[0], m_gearSpeedRangesMap.at(inputGear)[1]);
+		IsBetween(m_speed, m_gearSpeedRangesMap.at(inputGear).first, m_gearSpeedRangesMap.at(inputGear).second);
 }
 
 bool CCar::SetGear(int inputGear)
@@ -168,7 +168,7 @@ bool CCar::SetSpeed(int inputSpeed)
 	if ((m_gear != 0) && (m_statusMotor))
 	{
 		// TODO: make function IsBetween(x, min, max) +
-		if (IsBetween(inputSpeed, m_gearSpeedRangesMap[m_gear][0], m_gearSpeedRangesMap[m_gear][1]))
+		if (IsBetween(inputSpeed, m_gearSpeedRangesMap[m_gear].first, m_gearSpeedRangesMap[m_gear].second))
 		{
 			didChangeSpeed = true;
 			CCar::m_speed = inputSpeed;

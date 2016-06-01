@@ -23,13 +23,10 @@ BOOST_AUTO_TEST_CASE(SetSpeedWhenEngineOff)
 
 BOOST_AUTO_TEST_CASE(SetGearWhenEngineOff)
 {
-	BOOST_CHECK(car.SetGear(0));
-	BOOST_CHECK(!car.SetGear(-1));
-	BOOST_CHECK(!car.SetGear(1));
-	BOOST_CHECK(!car.SetGear(2));
-	BOOST_CHECK(!car.SetGear(3));
-	BOOST_CHECK(!car.SetGear(4));
-	BOOST_CHECK(!car.SetGear(5));
+	for (size_t i = -1; i <= 5; i++)
+	{
+		BOOST_CHECK(car.SetGear(i));
+	}BOOST_CHECK(car.SetGear(0));
 }
 
 
