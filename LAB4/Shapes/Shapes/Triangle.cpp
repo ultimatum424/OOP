@@ -28,5 +28,7 @@ float CTriangle::GetPerimeter() const
 
 std::string CTriangle::ToString() const
 {
-
+	return "T<" + m_dot1.ToString() + "," + m_dot2.ToString() + "," + m_dot3.ToString()
+		+ "," + m_line1.ToString() + "," + m_line2.ToString() + "," + m_line3.ToString()
+		+ "S=" + CSolidShape::Convert(GetArea()) + "P=" + CSolidShape::Convert(GetPerimeter()) + ">";
 }

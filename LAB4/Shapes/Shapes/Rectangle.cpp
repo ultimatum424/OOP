@@ -23,6 +23,8 @@ float CRectangle::GetPerimeter() const
 
 std::string CRectangle::ToString() const
 {
-
+	return "R<" + m_LeftTop.ToString() + "," + CSolidShape::Convert(m_width) + ","
+		+ CSolidShape::Convert(m_height) + "," + "S=" + CSolidShape::Convert(GetArea()) + ","
+		+ "P=" + CSolidShape::Convert(GetPerimeter()) + ">";
 }
 

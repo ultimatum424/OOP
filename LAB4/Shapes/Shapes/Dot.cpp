@@ -20,7 +20,7 @@ float CDot::GetPerimeter() const
 
 std::string CDot::ToString() const
 {
-
+	return "D<" + CShape::Convert(m_coordinates.first) + "," + CShape::Convert(m_coordinates.second) + ">";
 }
 
 coordinatesType CDot::GetCoordinates() const

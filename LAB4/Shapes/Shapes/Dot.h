@@ -1,6 +1,5 @@
 #pragma once
 #include "IShape.h"
-#include "Shape.h"
 class CDot : public CShape
 {
 public:

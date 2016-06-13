@@ -5,7 +5,7 @@ typedef std::pair<float, float> coordinatesType;
 class IShape
 {
 public:
-	IShape();
+	IShape() {};
 	virtual ~IShape() = default;
 	virtual float GetArea() const = 0;
 	virtual float GetPerimeter() const = 0;

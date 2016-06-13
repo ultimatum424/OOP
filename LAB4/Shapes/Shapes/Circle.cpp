@@ -21,6 +21,8 @@ float CCircle::GetPerimeter() const
 
 std::string CCircle::ToString() const
 {
-
+	return "C<" + m_centre.ToString() + "," + "R=" + CSolidShape::Convert(m_radius)
+		+ "S=" + CSolidShape::Convert(GetArea()) + "P=" + CSolidShape::Convert(GetPerimeter()) + ">";
 }
+
 

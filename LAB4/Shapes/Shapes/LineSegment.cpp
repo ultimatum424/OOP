@@ -17,10 +17,12 @@ float CLineSegment::GetArea() const
 
 float CLineSegment::GetPerimeter() const
 {
-	return sqrtf(pow(m_start.GetCoordinates.first - m_end.GetCoordinates.first, 2) + 
-		(m_start.GetCoordinates.second - m_end.GetCoordinates.second, 2));
+	return sqrtf(pow(m_start.GetCoordinates().first - m_end.GetCoordinates().first, 2) +
+		(m_start.GetCoordinates().second - m_end.GetCoordinates().second, 2));
 }
 
 std::string CLineSegment::ToString() const
 {
+	return "L<" + m_start.ToString() + "," + m_end.ToString() + "," + "S=" + CShape::Convert(GetArea())
+		+ "P=" + CShape::Convert(GetPerimeter()) + ">";
 }
