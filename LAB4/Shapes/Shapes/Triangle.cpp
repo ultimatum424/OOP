@@ -14,21 +14,21 @@ CTriangle::CTriangle(const coordinatesType& dot1, const coordinatesType& dot2, c
 {
 }
 
-float CTriangle::GetArea() const
+double CTriangle::GetArea() const
 {
-	float semiperimeter = this->GetPerimeter() / 2;
-	return sqrtf(semiperimeter * (semiperimeter - m_dot1.GetPerimeter()) * (semiperimeter - m_dot2.GetPerimeter()) *
+	double semiperimeter = this->GetPerimeter() / 2;
+	return sqrt(semiperimeter * (semiperimeter - m_dot1.GetPerimeter()) * (semiperimeter - m_dot2.GetPerimeter()) *
 		(semiperimeter - m_dot3.GetPerimeter()));
 }
 
-float CTriangle::GetPerimeter() const
+double CTriangle::GetPerimeter() const
 {
 	return m_line1.GetPerimeter() + m_line2.GetPerimeter() + m_line3.GetPerimeter();
 }
 
 std::string CTriangle::ToString() const
 {
-	return "T<" + m_dot1.ToString() + "," + m_dot2.ToString() + "," + m_dot3.ToString()
-		+ "," + m_line1.ToString() + "," + m_line2.ToString() + "," + m_line3.ToString()
-		+ "S=" + CSolidShape::Convert(GetArea()) + "P=" + CSolidShape::Convert(GetPerimeter()) + ">";
+	return "Triangle <" + m_dot1.ToString() + " , " + m_dot2.ToString() + " , " + m_dot3.ToString()
+		+ " , " + m_line1.ToString() + "," + m_line2.ToString() + " , " + m_line3.ToString()
+		+ " S=" + CSolidShape::Convert(GetArea()) + " P=" + CSolidShape::Convert(GetPerimeter()) + "> ";
 }

@@ -2,7 +2,7 @@
 #include "Rectangle.h"
 
 
-CRectangle::CRectangle(const coordinatesType& coordinates, const float& width, const float& height,
+CRectangle::CRectangle(const coordinatesType& coordinates, const double& width, const double& height,
 	const std::string& strColor, const std::string& fillColor)
 	:CSolidShape(strColor, fillColor),
 	m_LeftTop(coordinates, strColor),
@@ -11,20 +11,20 @@ CRectangle::CRectangle(const coordinatesType& coordinates, const float& width, c
 {
 }
 
-float CRectangle::GetArea() const
+double CRectangle::GetArea() const
 {
 	return m_width * m_height;
 }
 
-float CRectangle::GetPerimeter() const
+double CRectangle::GetPerimeter() const
 {
 	return (m_width + m_height) * 2;
 }
 
 std::string CRectangle::ToString() const
 {
-	return "R<" + m_LeftTop.ToString() + "," + CSolidShape::Convert(m_width) + ","
-		+ CSolidShape::Convert(m_height) + "," + "S=" + CSolidShape::Convert(GetArea()) + ","
-		+ "P=" + CSolidShape::Convert(GetPerimeter()) + ">";
+	return "Rectangle <" + m_LeftTop.ToString() + " , " + CSolidShape::Convert(m_width) + " , "
+		+ CSolidShape::Convert(m_height) + " , " + " S=" + CSolidShape::Convert(GetArea()) + " , "
+		+ " P=" + CSolidShape::Convert(GetPerimeter()) + "> ";
 }
 

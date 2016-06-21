@@ -5,12 +5,12 @@ class CCircle :
 	public CSolidShape
 {
 public:
-	CCircle(const coordinatesType& coordinates, const float& radius, const std::string& strColor, const std::string& fillColor);
-	float GetArea() const override;
-	float GetPerimeter() const override;
+	CCircle(const coordinatesType& coordinates, const double& radius, const std::string& strColor, const std::string& fillColor);
+	double GetArea() const override;
+	double GetPerimeter() const override;
 	std::string ToString() const override;
 private:
 	CDot m_centre;
-	float m_radius;
+	double m_radius;
 };
 

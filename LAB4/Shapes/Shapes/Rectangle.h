@@ -5,14 +5,14 @@ class CRectangle :
 	public CSolidShape
 {
 public:
-	CRectangle(const coordinatesType& coordinates, const float& width, const float& height, 
+	CRectangle(const coordinatesType& coordinates, const double& width, const double& height, 
 		const std::string& strColor, const std::string& fillColor);
-	float GetArea() const override;
-	float GetPerimeter() const override;
+	double GetArea() const override;
+	double GetPerimeter() const override;
 	std::string ToString() const override;
 private:
 	CDot m_LeftTop;
-	float m_width;
-	float m_height;
+	double m_width;
+	double m_height;
 };
 

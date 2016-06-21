@@ -4,23 +4,24 @@
 
 CDot::CDot(const coordinatesType& coordinates, const std::string& strColor)
 	:CShape(strColor),
-	m_coordinates()
+	m_coordinates(coordinates)
 {
 }
 
-float CDot::GetArea() const
+double CDot::GetArea() const
 {
 	return 0;
 }
 
-float CDot::GetPerimeter() const
+double CDot::GetPerimeter() const
 {
 	return 0;
 }
 
 std::string CDot::ToString() const
 {
-	return "D<" + CShape::Convert(m_coordinates.first) + "," + CShape::Convert(m_coordinates.second) + ">";
+	return "Point <" + CShape::Convert(m_coordinates.first) +  ", " + CShape::Convert(m_coordinates.second) + +" S=" +
+		CShape::Convert(GetArea()) +  " P=" + CShape::Convert(GetPerimeter()) + "> ";
 }
 
 coordinatesType CDot::GetCoordinates() const

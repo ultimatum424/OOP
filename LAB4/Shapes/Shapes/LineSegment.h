@@ -6,8 +6,8 @@ class CLineSegment :
 {
 public:
 	CLineSegment(const coordinatesType& coordinates1, const coordinatesType& coordinates2, const std::string& strColor);
-	float GetArea() const override;
-	float GetPerimeter() const override;
+	double GetArea() const override;
+	double GetPerimeter() const override;
 	std::string ToString() const override;
 private:
 	CDot m_start;

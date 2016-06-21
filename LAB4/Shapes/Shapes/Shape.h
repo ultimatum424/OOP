@@ -6,7 +6,7 @@ class CShape :
 public:
 	CShape(const std::string& color);
 	std::string GetStrColor() const;
-	std::string Convert(const float number) const;
+	std::string Convert(const double number) const;
 protected:
 	std::string m_strColor;
 };

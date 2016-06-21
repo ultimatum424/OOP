@@ -3,4 +3,18 @@
 #include "IShape.h"
 
 
-void CreatDot(const std::vector<std::shared_ptr<CShape>>& figures, const std::vector<std::string>& stringsComand);
+void CreatDot(std::vector<std::shared_ptr<CShape>>& figures, const std::vector<std::string>& stringsComand);
+
+void CreatLineSegment(std::vector<std::shared_ptr<CShape>>& figures, const std::vector<std::string>& stringsComand);
+
+void CreateCircle(std::vector<std::shared_ptr<CShape>>& figures, const std::vector<std::string>& stringsComand);
+
+void CreateRectangle(std::vector<std::shared_ptr<CShape>>& figures, const std::vector<std::string>& stringsComand);
+
+void CreateTriangle(std::vector<std::shared_ptr<CShape>>& figures, const std::vector<std::string>& stringsComand);
+
+std::vector<std::vector<std::string>> GetInputData();
+
+void ParseCommands(std::vector<std::shared_ptr<CShape>>& figures, std::vector<std::vector<std::string>> stringsComand);
+
+void OutputInfo(std::vector<std::shared_ptr<CShape>>& figures);

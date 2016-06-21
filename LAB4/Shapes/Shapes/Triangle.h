@@ -8,8 +8,8 @@ class CTriangle :
 public:
 	CTriangle(const coordinatesType& dot1, const coordinatesType& dot2, const coordinatesType& dot3,
 		const std::string& strString, const std::string& fillColor);
-	float GetArea() const override;
-	float GetPerimeter() const override;
+	double GetArea() const override;
+	double GetPerimeter() const override;
 	std::string ToString() const override;
 
 private:

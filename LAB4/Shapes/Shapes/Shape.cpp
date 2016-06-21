@@ -13,7 +13,7 @@ std::string CShape::GetStrColor() const
 	return m_strColor;
 }
 
-std::string CShape::Convert(const float number) const
+std::string CShape::Convert(const double number) const
 {
 	std::ostringstream buff;
 	buff << number;

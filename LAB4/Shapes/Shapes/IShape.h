@@ -1,14 +1,14 @@
 #pragma once
 #include "stdafx.h"
 
-typedef std::pair<float, float> coordinatesType;
+typedef std::pair<double, double> coordinatesType;
 class IShape
 {
 public:
 	IShape() {};
 	virtual ~IShape() = default;
-	virtual float GetArea() const = 0;
-	virtual float GetPerimeter() const = 0;
+	virtual double GetArea() const = 0;
+	virtual double GetPerimeter() const = 0;
 	virtual std::string ToString() const = 0;
 };
 
