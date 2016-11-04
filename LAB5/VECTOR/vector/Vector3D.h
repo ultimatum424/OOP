@@ -8,6 +8,8 @@ public:
 
 	double GetLength()const;
 
+	void Normalize();
+
 	CVector3D const operator+() const;
 
 	CVector3D const  operator-() const;

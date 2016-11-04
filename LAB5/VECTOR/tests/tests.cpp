@@ -12,6 +12,7 @@ struct Vector3DFixture
 	double Rounding(const double value)
 	{
 		return double(int(value * 1000)) / 1000;
+		//return value;
 	}
 	CVector3D Rounding(const CVector3D& v)
 	{
@@ -83,11 +84,8 @@ BOOST_AUTO_TEST_CASE(division)
 	CVector3D rightVector = { 5, 1, 1.5 };
 	CVector3D vector3 = vector2;
 	BOOST_CHECK(vector2 / 2 == rightVector);
-	//BOOST_CHECK(vector2 / 0 != zeroVector);
 	vector3 /= 2;
 	BOOST_CHECK(vector3 == rightVector);
-	//vector3 /= 0;
-	//BOOST_CHECK((vector3 /= 0) != zeroVector);
 }
 
 BOOST_AUTO_TEST_CASE(equality_and_inequality)
@@ -116,9 +114,12 @@ BOOST_AUTO_TEST_CASE(scalar_multiplication_vectors)
 
 BOOST_AUTO_TEST_CASE(normalize)
 {
+	CVector3D vector3 = vector2;
+	vector3.Normalize();
 	CVector3D normalizeVector = Normalize(vector2);
 	CVector3D rightVector = { 0.940, 0.188, 0.282 };
 	BOOST_CHECK(Rounding(normalizeVector) == rightVector);
+	BOOST_CHECK(Rounding(vector3) == rightVector);
 }
 
 BOOST_AUTO_TEST_CASE(cin_vector)

@@ -9,12 +9,11 @@ CVector3D::CVector3D()
 	z = 0;
 }
 
-
 CVector3D::~CVector3D()
 {
 }
 
-CVector3D::CVector3D(double x0, double y0, double z0)
+CVector3D::CVector3D(const double x0, const double y0, const double z0)
 {
 	x = x0;
 	y = y0;
@@ -25,6 +24,18 @@ double CVector3D::GetLength() const
 {
 
 	return 	sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
+}
+
+void CVector3D::Normalize()
+{
+	double length = GetLength();
+	if (length == 0)
+	{
+		throw std::invalid_argument("Err: Division by zero");
+	}
+	x /= length;
+	y /= length;
+	z /= length;
 }
 
 CVector3D Normalize(CVector3D const & v)
