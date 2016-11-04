@@ -131,15 +131,6 @@ CVector3D const operator*(const float scalar, const CVector3D & vector)
 	return CVector3D(vector.x * scalar, vector.y * scalar, vector.z * scalar);
 }
 
-CVector3D const operator/(const float scalar, const CVector3D & vector)
-{
-	if (scalar == 0)
-	{
-		throw std::invalid_argument("Err: Division by zero");
-	}
-	return CVector3D(vector.x / scalar, vector.y / scalar, vector.z / scalar);
-}
-
 CVector3D const operator/(const CVector3D & vector, const float scalar)
 {
 	if (scalar == 0)
@@ -168,19 +159,14 @@ bool const operator==(const CVector3D & v1, const CVector3D & v2)
 
 bool const operator!=(const CVector3D & v1, const CVector3D & v2)
 {
-	if (abs(v1.x - v2.x) <= DBL_EPSILON)
+	if (v1 == v2)
 	{
 		return false;
 	}
-	if (abs(v1.y - v2.y) <= DBL_EPSILON)
+	else
 	{
-		return false;
+		return true;
 	}
-	if (abs(v1.z - v2.z) <= DBL_EPSILON)
-	{
-		return false;
-	}
-	return true;
 }
 
 std::ostream& operator<<(std::ostream& stream, CVector3D & vector)

@@ -44,8 +44,6 @@ CVector3D const operator*(const float scalar, const CVector3D & vector);
 
 CVector3D const operator/(const CVector3D & vector, const float scalar);
 
-CVector3D const operator/(const float scalar, const CVector3D & vector);
-
 bool const operator==(const CVector3D & v1, const CVector3D & v2);
 
 bool const operator!=(const CVector3D & v1, const CVector3D & v2);

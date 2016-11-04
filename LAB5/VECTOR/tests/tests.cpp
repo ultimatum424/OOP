@@ -6,9 +6,6 @@
 
 struct Vector3DFixture
 {
-	CVector3D vector = { 5.26, 0, -15 };
-	CVector3D vector2 = { 10, 2, 3 };
-	CVector3D zeroVector = { 0, 0, 0 };
 	double Rounding(const double value)
 	{
 		return double(int(value * 1000)) / 1000;
@@ -27,6 +24,7 @@ BOOST_FIXTURE_TEST_SUITE(vector3d_tests, Vector3DFixture)
 
 BOOST_AUTO_TEST_CASE(correct_out_result)
 {
+	CVector3D vector = { 5.26, 0, -15 };
 	BOOST_CHECK(vector.x == 5.26);
 	BOOST_CHECK(vector.y == 0);
 	BOOST_CHECK(vector.z == -15);
@@ -34,11 +32,13 @@ BOOST_AUTO_TEST_CASE(correct_out_result)
 
 BOOST_AUTO_TEST_CASE(correct_length_vector)
 {
+	CVector3D vector = { 5.26, 0, -15 };
 	BOOST_CHECK_EQUAL(Rounding(vector.GetLength()), 15.895);
 }
 
 BOOST_AUTO_TEST_CASE(unary_plus_and_mines)
 {
+	CVector3D vector = { 5.26, 0, -15 };
 	CVector3D rightVector = vector;
 	BOOST_CHECK(+vector == rightVector);
 	rightVector = -vector;
@@ -47,6 +47,9 @@ BOOST_AUTO_TEST_CASE(unary_plus_and_mines)
 
 BOOST_AUTO_TEST_CASE(binary_plus)
 {
+	CVector3D vector = { 5.26, 0, -15 };
+	CVector3D vector2 = { 10, 2, 3 };
+	CVector3D zeroVector = { 0, 0, 0 };
 	CVector3D rightVector = { 15.26, 2, -12 };
 	CVector3D vector3 = vector2;
 	BOOST_CHECK(vector + vector2 == rightVector);
@@ -57,6 +60,9 @@ BOOST_AUTO_TEST_CASE(binary_plus)
 
 BOOST_AUTO_TEST_CASE(binary_mines)
 {
+	CVector3D vector = { 5.26, 0, -15 };
+	CVector3D vector2 = { 10, 2, 3 };
+	CVector3D zeroVector(0, 0, 0);
 	CVector3D rightVector = { -4.74, -2, -18 };
 	CVector3D vector3 = vector;
 	BOOST_CHECK(vector - vector2 == rightVector);
@@ -67,7 +73,10 @@ BOOST_AUTO_TEST_CASE(binary_mines)
 
 BOOST_AUTO_TEST_CASE(multiplication)
 {
+	CVector3D vector = { 5.26, 0, -15 };
+	CVector3D vector2 = { 10, 2, 3 };
 	CVector3D rightVector = { 20, 4, 6 };
+	CVector3D zeroVector = { 0, 0, 0 };
 	CVector3D vector3 = vector2;
 	BOOST_CHECK(vector2 * 2 == rightVector);
 	BOOST_CHECK(2 * vector2 == rightVector);
@@ -81,6 +90,7 @@ BOOST_AUTO_TEST_CASE(multiplication)
 
 BOOST_AUTO_TEST_CASE(division)
 {
+	CVector3D vector2 = { 10, 2, 3 };
 	CVector3D rightVector = { 5, 1, 1.5 };
 	CVector3D vector3 = vector2;
 	BOOST_CHECK(vector2 / 2 == rightVector);
@@ -90,30 +100,31 @@ BOOST_AUTO_TEST_CASE(division)
 
 BOOST_AUTO_TEST_CASE(equality_and_inequality)
 {
-	CVector3D vector3;
-	BOOST_CHECK(vector3 == zeroVector);
-	vector3 = vector;
-	BOOST_CHECK(vector3 == vector);
-	BOOST_CHECK(vector2 != zeroVector);
-	BOOST_CHECK(vector2 != vector);
+	BOOST_CHECK(CVector3D( 4, 4, 4 ) == CVector3D( 4, 4, 4 ));
+	BOOST_CHECK_EQUAL(CVector3D(4, 4, 4) == CVector3D(4, 0, 4), false);
+	BOOST_CHECK_EQUAL(CVector3D(4, 4, 4) != CVector3D(4, 0, 4), true);
+	BOOST_CHECK_EQUAL(CVector3D(4, 4, 4) != CVector3D(4, 4, 4), false);
+	BOOST_CHECK(CVector3D(1, 0, 0) != CVector3D(1, 1, 0));
 }
 
 BOOST_AUTO_TEST_CASE(multiplication_vectors)
 {
-	CVector3D vector3 = { 1, 2, 3 };
-	CVector3D rightVector = { 0, 27, -18 };
-	BOOST_CHECK(CrossProduct(vector3, vector2) ==  rightVector);
+	BOOST_CHECK(CrossProduct(CVector3D(1, 2, 3), CVector3D(10, 2, 3)) == CVector3D(0, 27, -18));
 }
 
 BOOST_AUTO_TEST_CASE(scalar_multiplication_vectors)
 {
+	CVector3D vectorZero = { 0, 0, 0 };
+	CVector3D vector2 = { 10, 2, 3 };
 	CVector3D vector3 = { 1, 2, 3 };
+	CVector3D zeroVector(0, 0, 0);
 	BOOST_CHECK(DotProduct(vector2, vector3) == 23);
 	BOOST_CHECK(DotProduct(vector2, zeroVector) == 0);
 }
 
 BOOST_AUTO_TEST_CASE(normalize)
 {
+	CVector3D vector2 = { 10, 2, 3 };
 	CVector3D vector3 = vector2;
 	vector3.Normalize();
 	CVector3D normalizeVector = Normalize(vector2);
@@ -124,6 +135,7 @@ BOOST_AUTO_TEST_CASE(normalize)
 
 BOOST_AUTO_TEST_CASE(cin_vector)
 {
+	CVector3D vector2 = { 10, 2, 3 };
 	std::stringbuf stringBuff("5 2 1");
 	std::istream is (&stringBuff);
 	is >> vector2;
@@ -133,6 +145,7 @@ BOOST_AUTO_TEST_CASE(cin_vector)
 
 BOOST_AUTO_TEST_CASE(cout_vector)
 {
+	CVector3D vector = { 5.26, 0, -15 };
 	output_test_stream output;
 	output << vector;
 	BOOST_TEST(!output.is_empty(false));
