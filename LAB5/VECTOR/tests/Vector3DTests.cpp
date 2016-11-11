@@ -21,7 +21,7 @@ struct Vector3DFixture
 
 BOOST_FIXTURE_TEST_SUITE(vector3d_tests, Vector3DFixture)
 
-BOOST_AUTO_TEST_CASE(Vector3D_get_value_from_constructor)
+BOOST_AUTO_TEST_CASE(Vector3D_gets_value_from_constructor)
 {
 	CVector3D vector = { 5.26, 0, -15 };
 	BOOST_CHECK(vector.x == 5.26);
