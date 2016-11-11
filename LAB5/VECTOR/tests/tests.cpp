@@ -1,154 +1,43 @@
-// tests.cpp: определяет точку входа для консольного приложения.
-//
-
 #include "stdafx.h"
-#include "../vector/Vector3D.h"
+#include <boost/test/output/compiler_log_formatter.hpp>
 
-struct Vector3DFixture
+
+/*
+Данный класс управляет формаитрованием журнала запуска тестов
+Для того, чтобы увидеть результат, приложение должно быть запущено с ключём --log-level=test_suite (см. Post-build event в настройках проекта)
+*/
+class SpecLogFormatter :
+	public boost::unit_test::output::compiler_log_formatter
 {
-	double Rounding(const double value)
+	virtual void test_unit_start(std::ostream &os, boost::unit_test::test_unit const& tu) override
 	{
-		return double(int(value * 1000)) / 1000;
-		//return value;
+		// перед запуском test unit-а выводим имя test unit-а, заменяя символ подчеркивания на пробел
+		os << std::string(m_indent, ' ') << boost::replace_all_copy(tu.p_name.get(), "_", " ") << std::endl;
+		// увеличиваем отступ для вывода имен последующих test unit-ов в виде дерева
+		m_indent += 2;
 	}
-	CVector3D Rounding(const CVector3D& v)
+
+	virtual void test_unit_finish(std::ostream &/*os*/, boost::unit_test::test_unit const& /*tu*/, unsigned long /*elapsed*/) override
 	{
-		double x = Rounding(v.x);
-		double y = Rounding(v.y);
-		double z = Rounding(v.z);
-		return CVector3D(x, y, z);
+		// по окончании test unit-а уменьшаем отступ
+		m_indent -= 2;
 	}
+
+	int m_indent = 0;
 };
 
-BOOST_FIXTURE_TEST_SUITE(vector3d_tests, Vector3DFixture)
-
-BOOST_AUTO_TEST_CASE(correct_out_result)
+boost::unit_test::test_suite* init_unit_test_suite(int /*argc*/, char* /*argv*/[])
 {
-	CVector3D vector = { 5.26, 0, -15 };
-	BOOST_CHECK(vector.x == 5.26);
-	BOOST_CHECK(vector.y == 0);
-	BOOST_CHECK(vector.z == -15);
+	// Заменили имя log formatter на пользовательский
+	boost::unit_test::unit_test_log.set_formatter(new SpecLogFormatter);
+	// Имя корневого набора тестов - All tests
+	boost::unit_test::framework::master_test_suite().p_name.value = "All tests";
+	return 0;
 }
 
-BOOST_AUTO_TEST_CASE(correct_length_vector)
-{
-	CVector3D vector = { 5.26, 0, -15 };
-	BOOST_CHECK_EQUAL(Rounding(vector.GetLength()), 15.895);
-}
 
-BOOST_AUTO_TEST_CASE(unary_plus_and_mines)
+int main(int argc, char* argv[])
 {
-	CVector3D vector = { 5.26, 0, -15 };
-	CVector3D rightVector = vector;
-	BOOST_CHECK(+vector == rightVector);
-	rightVector = -vector;
-	BOOST_CHECK(-vector == rightVector);
+	// Запускаем тесты, передавая параметры командной строки и кастомную функцию инициализации тестов
+	return boost::unit_test::unit_test_main(&init_unit_test_suite, argc, argv);
 }
-
-BOOST_AUTO_TEST_CASE(binary_plus)
-{
-	CVector3D vector = { 5.26, 0, -15 };
-	CVector3D vector2 = { 10, 2, 3 };
-	CVector3D zeroVector = { 0, 0, 0 };
-	CVector3D rightVector = { 15.26, 2, -12 };
-	CVector3D vector3 = vector2;
-	BOOST_CHECK(vector + vector2 == rightVector);
-	BOOST_CHECK(vector + zeroVector == vector);
-	vector3 += vector;
-	BOOST_CHECK(vector3 == rightVector);
-}
-
-BOOST_AUTO_TEST_CASE(binary_mines)
-{
-	CVector3D vector = { 5.26, 0, -15 };
-	CVector3D vector2 = { 10, 2, 3 };
-	CVector3D zeroVector(0, 0, 0);
-	CVector3D rightVector = { -4.74, -2, -18 };
-	CVector3D vector3 = vector;
-	BOOST_CHECK(vector - vector2 == rightVector);
-	BOOST_CHECK(vector - zeroVector == vector);
-	vector3 -= vector2;
-	BOOST_CHECK(vector3 == rightVector);
-}
-
-BOOST_AUTO_TEST_CASE(multiplication)
-{
-	CVector3D vector = { 5.26, 0, -15 };
-	CVector3D vector2 = { 10, 2, 3 };
-	CVector3D rightVector = { 20, 4, 6 };
-	CVector3D zeroVector = { 0, 0, 0 };
-	CVector3D vector3 = vector2;
-	BOOST_CHECK(vector2 * 2 == rightVector);
-	BOOST_CHECK(2 * vector2 == rightVector);
-	BOOST_CHECK(vector2 * 0 == zeroVector);
-	vector3 *= 2;
-	BOOST_CHECK(vector3 == rightVector);
-	vector3 *= 0;
-	BOOST_CHECK(vector3 == zeroVector);
-
-}
-
-BOOST_AUTO_TEST_CASE(division)
-{
-	CVector3D vector2 = { 10, 2, 3 };
-	CVector3D rightVector = { 5, 1, 1.5 };
-	CVector3D vector3 = vector2;
-	BOOST_CHECK(vector2 / 2 == rightVector);
-	vector3 /= 2;
-	BOOST_CHECK(vector3 == rightVector);
-}
-
-BOOST_AUTO_TEST_CASE(equality_and_inequality)
-{
-	BOOST_CHECK(CVector3D( 4, 4, 4 ) == CVector3D( 4, 4, 4 ));
-	BOOST_CHECK_EQUAL(CVector3D(4, 4, 4) == CVector3D(4, 0, 4), false);
-	BOOST_CHECK_EQUAL(CVector3D(4, 4, 4) != CVector3D(4, 0, 4), true);
-	BOOST_CHECK_EQUAL(CVector3D(4, 4, 4) != CVector3D(4, 4, 4), false);
-	BOOST_CHECK(CVector3D(1, 0, 0) != CVector3D(1, 1, 0));
-}
-
-BOOST_AUTO_TEST_CASE(multiplication_vectors)
-{
-	BOOST_CHECK(CrossProduct(CVector3D(1, 2, 3), CVector3D(10, 2, 3)) == CVector3D(0, 27, -18));
-}
-
-BOOST_AUTO_TEST_CASE(scalar_multiplication_vectors)
-{
-	CVector3D vectorZero = { 0, 0, 0 };
-	CVector3D vector2 = { 10, 2, 3 };
-	CVector3D vector3 = { 1, 2, 3 };
-	CVector3D zeroVector(0, 0, 0);
-	BOOST_CHECK(DotProduct(vector2, vector3) == 23);
-	BOOST_CHECK(DotProduct(vector2, zeroVector) == 0);
-}
-
-BOOST_AUTO_TEST_CASE(normalize)
-{
-	CVector3D vector2 = { 10, 2, 3 };
-	CVector3D vector3 = vector2;
-	vector3.Normalize();
-	CVector3D normalizeVector = Normalize(vector2);
-	CVector3D rightVector = { 0.940, 0.188, 0.282 };
-	BOOST_CHECK(Rounding(normalizeVector) == rightVector);
-	BOOST_CHECK(Rounding(vector3) == rightVector);
-}
-
-BOOST_AUTO_TEST_CASE(cin_vector)
-{
-	CVector3D vector2 = { 10, 2, 3 };
-	std::stringbuf stringBuff("5 2 1");
-	std::istream is (&stringBuff);
-	is >> vector2;
-	CVector3D rightVector = { 5, 2, 1 };
-	BOOST_CHECK(vector2 == rightVector);
-}
-
-BOOST_AUTO_TEST_CASE(cout_vector)
-{
-	CVector3D vector = { 5.26, 0, -15 };
-	output_test_stream output;
-	output << vector;
-	BOOST_TEST(!output.is_empty(false));
-	BOOST_TEST(output.is_equal("5.26, 0, -15"));
-}
-BOOST_AUTO_TEST_SUITE_END()

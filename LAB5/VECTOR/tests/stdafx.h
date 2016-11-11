@@ -13,8 +13,8 @@
 
 
 // TODO: Установите здесь ссылки на дополнительные заголовки, требующиеся для программы
-
-#define BOOST_TEST_MODULE Lab5-Tests
+#include <boost/algorithm/string/replace.hpp>
+#pragma warning (disable: 4702)
 #define BOOST_TEST_INCLUDED
 #include <boost\test\unit_test.hpp>
 #include <boost\test\output_test_stream.hpp>
