@@ -95,6 +95,8 @@ BOOST_AUTO_TEST_CASE(Vector3D_can_division_vector_and_scalar)
 	BOOST_CHECK(vector2 / 2 == rightVector);
 	vector3 /= 2;
 	BOOST_CHECK(vector3 == rightVector);
+	BOOST_CHECK_THROW(vector2 / 0, std::exception);
+	BOOST_CHECK_THROW(vector2 /= 0, std::exception);
 }
 
 BOOST_AUTO_TEST_CASE(Vector3D_have_operation_equality_and_inequality)
