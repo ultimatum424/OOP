@@ -4,32 +4,20 @@
 
 CStringStack::CStringStack()
 {
-	last_data = nullptr;
+	m_top = nullptr;
 }
 
-void CStringStack::push(const std::string & value)
+void CStringStack::Push(const std::string& value)
 {
-	if (last_data == NULL)
-	{
-		last_data = std::unique_ptr<StackElement>(new StackElement());
-		last_data->string = value;
-		last_data->ptr = NULL;
-	}
-	else
-	{
-		std::unique_ptr<StackElement> p(new StackElement());
-		p->ptr = std::move(last_data);
-		p->string = value;
-		last_data = std::move(p);
-	}	
+		auto newNode = std::make_unique<SNode>(value, std::move(m_top));
+		m_top = move(newNode);
 }
 
-void CStringStack::pop()
+void CStringStack::Pop()
 {
-	if (!isEmpty())
+	if (!IsEmpty())
 	{
-		auto p = std::make_unique<StackElement>;
-		last_data = std::move(last_data->ptr);
+		m_top = std::move(m_top->prev);
 	}
 	else
 	{
@@ -38,11 +26,11 @@ void CStringStack::pop()
 	
 }
 
-std::string CStringStack::get() const
+std::string CStringStack::Get() const
 {
-	if (!isEmpty())
+	if (!IsEmpty())
 	{
-		return last_data->string;
+		return m_top->data;
 	}
 	else
 	{
@@ -51,19 +39,21 @@ std::string CStringStack::get() const
 	
 }
 
-bool CStringStack::isEmpty() const
+bool CStringStack::IsEmpty() const
 {
-	if (last_data == NULL)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return (m_top == nullptr);
+
 }
 
+void CStringStack::Clear()
+{
+	while (m_top)
+	{
+		Pop();
+	}
+}
 
 CStringStack::~CStringStack()
 {
+	Clear();
 }

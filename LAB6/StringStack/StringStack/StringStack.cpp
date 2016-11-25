@@ -11,10 +11,10 @@ int main()
 		CStringStack stack;
 		CStringStack stack2;
 
-		stack.push("");
-		stack.pop();
-		std::cout << stack.isEmpty() << "\n";;
-		std::cout <<  stack.get() << "\n";;
+		stack.Push("");
+		//stack.Pop();
+		std::cout << stack.IsEmpty() << "\n";;
+		std::cout <<  stack.Get() << "\n";;
 	}
 	catch(std::exception const & e)
 	{

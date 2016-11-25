@@ -7,4 +7,6 @@
 // TODO: Установите ссылки на любые требующиеся дополнительные заголовки в файле STDAFX.H
 // , а не в данном файле
 
-#include <boost\test\included\unit_test.hpp>
+#define BOOST_TEST_NO_MAIN 
+// подключаем реализацию boost test
+#include <boost/test/included/unit_test.hpp>
