@@ -18,9 +18,9 @@ public:
 
 	CVector3D& operator-=(const CVector3D& vector);
 
-	CVector3D& operator*=(const float scalar);
+	CVector3D& operator*=(const double scalar);
 
-	CVector3D& operator/=(const float scalar);
+	CVector3D& operator/=(const double scalar);
 
 
 	double x;
@@ -38,11 +38,11 @@ CVector3D const operator+(const CVector3D & v1, const CVector3D & v2);
 
 CVector3D const operator-(const CVector3D & v1, const CVector3D & v2);
 
-CVector3D const operator*(const CVector3D & vector, const float scalar);
+CVector3D const operator*(const CVector3D & vector, const double scalar);
 
-CVector3D const operator*(const float scalar, const CVector3D & vector);
+CVector3D const operator*(const double scalar, const CVector3D & vector);
 
-CVector3D const operator/(const CVector3D & vector, const float scalar);
+CVector3D const operator/(const CVector3D & vector, const double scalar);
 
 bool const operator==(const CVector3D & v1, const CVector3D & v2);
 

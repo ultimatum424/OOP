@@ -85,7 +85,7 @@ CVector3D & CVector3D::operator-=(const CVector3D & vector)
 	return *this;
 }
 
-CVector3D & CVector3D::operator*=(const float scalar)
+CVector3D & CVector3D::operator*=(const double scalar)
 {
 	x = x * scalar;
 	y = y * scalar;
@@ -93,7 +93,7 @@ CVector3D & CVector3D::operator*=(const float scalar)
 	return *this;
 }
 
-CVector3D & CVector3D::operator/=(const float scalar)
+CVector3D & CVector3D::operator/=(const double scalar)
 {
 	if (scalar == 0)
 	{
@@ -121,17 +121,17 @@ CVector3D const operator-(const CVector3D & v1, const CVector3D & v2)
 	return  CVector3D(x, y, z);
 }
 
-CVector3D const operator*(const CVector3D & vector, const float scalar)
+CVector3D const operator*(const CVector3D & vector, const double scalar)
 {
 	return CVector3D(vector.x * scalar, vector.y * scalar, vector.z * scalar);
 }
 
-CVector3D const operator*(const float scalar, const CVector3D & vector)
+CVector3D const operator*(const double scalar, const CVector3D & vector)
 {
 	return CVector3D(vector.x * scalar, vector.y * scalar, vector.z * scalar);
 }
 
-CVector3D const operator/(const CVector3D & vector, const float scalar)
+CVector3D const operator/(const CVector3D & vector, const double scalar)
 {
 	if (scalar == 0)
 	{
