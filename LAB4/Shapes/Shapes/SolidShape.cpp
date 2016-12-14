@@ -2,8 +2,8 @@
 #include "SolidShape.h"
 
 
-CSolidShape::CSolidShape(const std::string& strColor, const std::string& fillColor)
-	:CShape(strColor),
+CSolidShape::CSolidShape(const std::string& color, const std::string& fillColor)
+	:CShape(color),
 	m_fillColor(fillColor)
 {
 }

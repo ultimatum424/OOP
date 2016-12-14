@@ -2,10 +2,10 @@
 #include "LineSegment.h"
 
 
-CLineSegment::CLineSegment(const coordinatesType& coordinates1, const coordinatesType& coordinates2, const std::string& strColor)
-	:CShape(strColor),
-	m_start(coordinates1, strColor),
-	m_end(coordinates2, strColor)
+CLineSegment::CLineSegment(const coordinatesType& coordinates1, const coordinatesType& coordinates2, const std::string& color)
+	:CShape(color),
+	m_start(coordinates1, color),
+	m_end(coordinates2, color)
 {
 }
 
@@ -23,6 +23,6 @@ double CLineSegment::GetPerimeter() const
 
 std::string CLineSegment::ToString() const
 {
-	return "Line <" + m_start.ToString() + " , " + m_end.ToString() + " , " + " S=" + CShape::Convert(GetArea())
+	return "Line <" + m_start.ToString() + ", " + m_end.ToString() + ", " + " S=" + CShape::Convert(GetArea())
 		+ " P=" + CShape::Convert(GetPerimeter()) + "> ";
 }

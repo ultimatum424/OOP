@@ -5,5 +5,5 @@ class ISolidShape :
 {
 public:
 	virtual std::string GetFillColor() const = 0;
+	virtual ~ISolidShape() {};
 };
-

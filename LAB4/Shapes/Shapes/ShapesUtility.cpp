@@ -21,10 +21,6 @@ void CreatDot(std::vector<std::shared_ptr<CShape>>& figures, const std::vector<s
 
 void CreatLineSegment(std::vector<std::shared_ptr<CShape>>& figures, const std::vector<std::string>& stringsComand)
 {
-	if (stringsComand.size() != 6)
-	{
-		throw std::exception("Err: Invalid parameters count ");
-	}
 	try
 	{
 		coordinatesType firstDot = { stof(stringsComand[1]), stof(stringsComand[2]) };
@@ -46,10 +42,10 @@ void CreateCircle(std::vector<std::shared_ptr<CShape>>& figures, const std::vect
 	try
 	{
 		double radius = stof(stringsComand[3]);
-			if (radius == 0)
-			{
-				throw std::exception("");
-			}
+		if (radius <= 0)
+		{
+			throw std::exception("Err: Radius <= 0");
+		}
 		coordinatesType coordinates = { stof(stringsComand[1]), stof(stringsComand[2]) };
 		figures.push_back(std::make_shared<CCircle>(coordinates, radius, stringsComand[4], stringsComand[5]));
 	}
@@ -64,15 +60,14 @@ void CreateRectangle(std::vector<std::shared_ptr<CShape>>& figures, const std::v
 	if (stringsComand.size() != 7)
 	{
 		throw std::exception("Err: Invalid parameters count ");
-
 	}
 	try
 	{
-		double width = stof(stringsComand[3]);
-		double height = stof(stringsComand[4]);
+		float width = stof(stringsComand[3]);
+		float height = stof(stringsComand[4]);
 		if (width <= 0 || height <= 0)
 		{
-			throw std::exception("");
+			throw std::exception("width OR height rectangle <= 0");
 		}
 		coordinatesType coordinates = { stof(stringsComand[1]), stof(stringsComand[2]) };
 		figures.push_back(std::make_shared<CRectangle>(coordinates, width, height, stringsComand[5], stringsComand[6]));
@@ -87,17 +82,22 @@ void CreateTriangle(std::vector<std::shared_ptr<CShape>>& figures, const std::ve
 {
 	if (stringsComand.size() != 9)
 	{
+		throw std::exception("Err: Invalid parameters count ");
 	}
 	try
 	{
 		coordinatesType dot1 = { stof(stringsComand[1]), stof(stringsComand[2]) };
 		coordinatesType dot2 = { stof(stringsComand[3]), stof(stringsComand[4]) };
 		coordinatesType dot3 = { stof(stringsComand[5]), stof(stringsComand[6]) };
+		if (!IsTriangle(dot1, dot2, dot3))
+		{
+			throw std::exception("Err: a + b <= c ");
+		}
 		figures.push_back(std::make_shared<CTriangle>(dot1, dot2, dot3, stringsComand[7], stringsComand[8]));
 	}
-	catch (const std::exception&)
+	catch (const std::exception& e)
 	{
-		throw std::exception("\tError: Invalid parameters to create triangle");
+		throw std::exception(e);
 	}
 }
 
@@ -149,7 +149,7 @@ void ParseCommands(std::vector<std::shared_ptr<CShape>>& figures, std::vector<st
 			}
 			else
 			{
-				throw std::exception("\tError: Invalid command");
+				throw std::exception("\t Error: Invalid command");
 			}
 		}
 		catch (const std::exception& error)
@@ -183,4 +183,25 @@ void OutputInfo(std::vector<std::shared_ptr<CShape>>& figures)
 	{
 		std::cout << figure->ToString() << std::endl;
 	}
+
+}
+
+float CalculationLineLength(const coordinatesType & dot1, const coordinatesType & dot2)
+{
+	return sqrtf(pow((dot1.first - dot2.first), 2) + pow((dot1.second - dot2.second), 2));
+}
+
+bool IsTriangle(const coordinatesType & dot1, const coordinatesType & dot2, const coordinatesType & dot3)
+{
+	float lineLength1 = CalculationLineLength(dot1, dot2);
+	float lineLength2 = CalculationLineLength(dot1, dot3);
+	float lineLength3 = CalculationLineLength(dot2, dot3);
+	
+	if ((lineLength1 + lineLength2 <= lineLength3) || (lineLength1 + lineLength3 <= lineLength2)
+		|| (lineLength2 + lineLength3 <= lineLength1))
+	{
+		return false;
+	}
+
+	return true;
 }

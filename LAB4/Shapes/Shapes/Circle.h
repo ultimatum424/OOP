@@ -5,7 +5,7 @@ class CCircle :
 	public CSolidShape
 {
 public:
-	CCircle(const coordinatesType& coordinates, const double& radius, const std::string& strColor, const std::string& fillColor);
+	CCircle(const coordinatesType& coordinates, const double& radius, const std::string& color, const std::string& fillColor);
 	double GetArea() const override;
 	double GetPerimeter() const override;
 	std::string ToString() const override;

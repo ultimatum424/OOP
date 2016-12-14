@@ -2,9 +2,9 @@
 #include "Circle.h"
 
 
-CCircle::CCircle(const coordinatesType& coordinates, const double& radius, const std::string& strColor, const std::string& fillColor)
-	:CSolidShape(strColor, fillColor),
-	m_centre(coordinates, strColor),
+CCircle::CCircle(const coordinatesType& coordinates, const double& radius, const std::string& color, const std::string& fillColor)
+	:CSolidShape(color, fillColor),
+	m_centre(coordinates, color),
 	m_radius(radius)
 {
 }
@@ -21,8 +21,8 @@ double CCircle::GetPerimeter() const
 
 std::string CCircle::ToString() const
 {
-	return "Circle <" + m_centre.ToString() + " , " +  "R=" + CSolidShape::Convert(m_radius)
-		+ " S=" + CSolidShape::Convert(GetArea()) + " , " + " P=" + CSolidShape::Convert(GetPerimeter()) + "> ";
+	return "Circle <" + m_centre.ToString() + ", " +  " R=" + CSolidShape::Convert(m_radius)
+		+ " S=" + CSolidShape::Convert(GetArea()) + ", " + " P=" + CSolidShape::Convert(GetPerimeter()) + "> ";
 }
 
 

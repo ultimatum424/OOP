@@ -5,7 +5,7 @@ class CLineSegment :
 	public CShape
 {
 public:
-	CLineSegment(const coordinatesType& coordinates1, const coordinatesType& coordinates2, const std::string& strColor);
+	CLineSegment(const coordinatesType& coordinates1, const coordinatesType& coordinates2, const std::string& color);
 	double GetArea() const override;
 	double GetPerimeter() const override;
 	std::string ToString() const override;

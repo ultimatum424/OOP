@@ -6,7 +6,7 @@ class CRectangle :
 {
 public:
 	CRectangle(const coordinatesType& coordinates, const double& width, const double& height, 
-		const std::string& strColor, const std::string& fillColor);
+		const std::string& color, const std::string& fillColor);
 	double GetArea() const override;
 	double GetPerimeter() const override;
 	std::string ToString() const override;

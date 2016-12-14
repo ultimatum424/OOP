@@ -4,13 +4,13 @@
 
 CShape::CShape(const std::string& color)
 {
-	m_strColor = color;
+	m_color = color;
 }
 
 
-std::string CShape::GetStrColor() const
+std::string CShape::Getcolor() const
 {
-	return m_strColor;
+	return m_color;
 }
 
 std::string CShape::Convert(const double number) const

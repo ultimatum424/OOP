@@ -2,8 +2,8 @@
 #include "Dot.h"
 
 
-CDot::CDot(const coordinatesType& coordinates, const std::string& strColor)
-	:CShape(strColor),
+CDot::CDot(const coordinatesType& coordinates, const std::string& color)
+	:CShape(color),
 	m_coordinates(coordinates)
 {
 }
@@ -20,7 +20,7 @@ double CDot::GetPerimeter() const
 
 std::string CDot::ToString() const
 {
-	return "Point <" + CShape::Convert(m_coordinates.first) +  ", " + CShape::Convert(m_coordinates.second) + +" S=" +
+	return "Point < " + CShape::Convert(m_coordinates.first) +  ", " + CShape::Convert(m_coordinates.second) + +" S=" +
 		CShape::Convert(GetArea()) +  " P=" + CShape::Convert(GetPerimeter()) + "> ";
 }
 

@@ -3,9 +3,9 @@
 
 
 CRectangle::CRectangle(const coordinatesType& coordinates, const double& width, const double& height,
-	const std::string& strColor, const std::string& fillColor)
-	:CSolidShape(strColor, fillColor),
-	m_LeftTop(coordinates, strColor),
+	const std::string& color, const std::string& fillColor)
+	:CSolidShape(color, fillColor),
+	m_LeftTop(coordinates, color),
 	m_width(width),
 	m_height(height)
 {
@@ -23,8 +23,8 @@ double CRectangle::GetPerimeter() const
 
 std::string CRectangle::ToString() const
 {
-	return "Rectangle <" + m_LeftTop.ToString() + " , " + CSolidShape::Convert(m_width) + " , "
-		+ CSolidShape::Convert(m_height) + " , " + " S=" + CSolidShape::Convert(GetArea()) + " , "
+	return "Rectangle <" + m_LeftTop.ToString() + ", " + CSolidShape::Convert(m_width) + ", "
+		+ CSolidShape::Convert(m_height) + ", " + " S=" + CSolidShape::Convert(GetArea()) + ", "
 		+ " P=" + CSolidShape::Convert(GetPerimeter()) + "> ";
 }
 

@@ -18,6 +18,8 @@
 #include <memory>
 #include <vector>
 #include <iostream>
+#include <cctype>
+#include <cmath>
 
 #include "IShape.h"
 #include "ISolidShape.h"

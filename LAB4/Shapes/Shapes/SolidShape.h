@@ -2,10 +2,10 @@
 #include "ISolidShape.h"
 #include "Shape.h"
 class CSolidShape :
-	public CShape, ISolidShape
+	public ISolidShape, public CShape
 {
 public:
-	CSolidShape(const std::string& strColor, const std::string& fillColor);
+	CSolidShape(const std::string& color, const std::string& fillColor);
 	std::string GetFillColor() const;
 protected:
 	std::string m_fillColor;
