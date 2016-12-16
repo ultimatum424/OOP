@@ -15,6 +15,7 @@ int main()
 	CVector3D v2;
 	int a;
 	cin >> v2;
+	cout << v2;
     return 0;
 }
 

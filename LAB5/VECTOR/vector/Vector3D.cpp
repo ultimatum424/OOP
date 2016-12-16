@@ -177,18 +177,13 @@ std::ostream& operator<<(std::ostream& stream, CVector3D & vector)
 
 std::istream & operator>>(std::istream & stream, CVector3D & counter)
 {
-	double x;
-	double y;
-	double z;
-	if (stream >> x && stream >> y && stream >> z)
+	try
 	{
-		counter.x = x;
-		counter.y = y;
-		counter.z = z;
+		stream >> counter.x >> counter.y >> counter.z;
 	}
-	else
+	catch (const std::exception&)
 	{
-		throw std::invalid_argument("Err: Invalid arguments vector");
+		stream.setstate(std::ios::failbit);
 	}
 	return stream;
 }
