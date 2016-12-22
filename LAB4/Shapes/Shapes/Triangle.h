@@ -11,6 +11,7 @@ public:
 	double GetArea() const override;
 	double GetPerimeter() const override;
 	std::string ToString() const override;
+	std::vector<std::string> ToStringSfml() const override;
 
 private:
 	CDot m_dot1;

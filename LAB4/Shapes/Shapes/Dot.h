@@ -8,6 +8,7 @@ public:
 	double GetPerimeter() const override;
 	std::string ToString() const override;
 	coordinatesType GetCoordinates() const;
+	std::vector<std::string> ToStringSfml() const override;
 
 private:
 	coordinatesType m_coordinates;

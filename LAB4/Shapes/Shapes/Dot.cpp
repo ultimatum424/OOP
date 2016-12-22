@@ -29,3 +29,9 @@ coordinatesType CDot::GetCoordinates() const
 	return m_coordinates;
 }
 
+std::vector<std::string> CDot::ToStringSfml() const
+{
+	return std::vector<std::string>{ "Point", Convert(m_coordinates.first), Convert(m_coordinates.second), m_color };
+
+}
+

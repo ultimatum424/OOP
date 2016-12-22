@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Circle.h"
 
-
 CCircle::CCircle(const coordinatesType& coordinates, const double& radius, const std::string& color, const std::string& fillColor)
 	:CSolidShape(color, fillColor),
 	m_centre(coordinates, color),
@@ -23,6 +22,12 @@ std::string CCircle::ToString() const
 {
 	return "Circle <" + m_centre.ToString() + ", " +  " R=" + CSolidShape::Convert(m_radius)
 		+ " S=" + CSolidShape::Convert(GetArea()) + ", " + " P=" + CSolidShape::Convert(GetPerimeter()) + "> ";
+}
+
+std::vector<std::string> CCircle::ToStringSfml() const
+{
+	return std::vector<std::string>{"Circle", Convert(m_centre.GetCoordinates().first), Convert(m_centre.GetCoordinates().second),
+		Convert(m_radius), m_color, m_fillColor };
 }
 
 

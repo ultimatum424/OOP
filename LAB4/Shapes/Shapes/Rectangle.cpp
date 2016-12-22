@@ -28,3 +28,9 @@ std::string CRectangle::ToString() const
 		+ " P=" + CSolidShape::Convert(GetPerimeter()) + "> ";
 }
 
+std::vector<std::string> CRectangle::ToStringSfml() const
+{
+	return std::vector<std::string>{"Rectangle", Convert(m_LeftTop.GetCoordinates().first), Convert(m_LeftTop.GetCoordinates().second),
+		Convert(m_width), Convert(m_height), m_fillColor};
+}
+

@@ -31,7 +31,7 @@
 #include "LineSegment.h"
 #include "Triangle.h"
 #include "../Shapes/ShapesUtility.h"
-
-
+//#include <SFML\Graphics.hpp>
+//#include <SFML\System.hpp>
 
 // TODO: Установите здесь ссылки на дополнительные заголовки, требующиеся для программы

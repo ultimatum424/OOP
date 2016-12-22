@@ -26,3 +26,10 @@ std::string CLineSegment::ToString() const
 	return "Line <" + m_start.ToString() + ", " + m_end.ToString() + ", " + " S=" + CShape::Convert(GetArea())
 		+ " P=" + CShape::Convert(GetPerimeter()) + "> ";
 }
+
+std::vector<std::string> CLineSegment::ToStringSfml() const
+{
+	return std::vector<std::string>{"Line", Convert(m_start.GetCoordinates().first),
+		Convert(m_start.GetCoordinates().second), Convert(m_end.GetCoordinates().first), Convert(m_end.GetCoordinates().second),
+		m_color};
+}

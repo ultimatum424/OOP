@@ -32,3 +32,12 @@ std::string CTriangle::ToString() const
 		+ " , " + m_line1.ToString() + "," + m_line2.ToString() + " , " + m_line3.ToString()
 		+ " S=" + CSolidShape::Convert(GetArea()) + " P=" + CSolidShape::Convert(GetPerimeter()) + "> ";
 }
+
+std::vector<std::string> CTriangle::ToStringSfml() const
+{
+	return std::vector<std::string>{"Triangle", 
+		Convert(m_dot1.GetCoordinates().first), Convert(m_dot1.GetCoordinates().second), 
+		Convert(m_dot2.GetCoordinates().first), Convert(m_dot2.GetCoordinates().second),
+		Convert(m_dot3.GetCoordinates().first), Convert(m_dot3.GetCoordinates().second),
+		m_fillColor};
+}
