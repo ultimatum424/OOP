@@ -19,7 +19,7 @@ struct Vector3DFixture
 	}
 };
 
-BOOST_FIXTURE_TEST_SUITE(vector3d, Vector3DFixture)
+BOOST_FIXTURE_TEST_SUITE(Vector3D, Vector3DFixture)
 
 	BOOST_AUTO_TEST_CASE(gets_value_from_constructor)
 	{

@@ -171,15 +171,23 @@ bool const operator!=(const CVector3D & v1, const CVector3D & v2)
 
 std::ostream& operator<<(std::ostream& stream, CVector3D & vector)
 {
-	stream << vector.x << ", " << vector.y << ", " << vector.z;
+	stream << vector.x << ", " << vector.y << ", " << vector.z << std::endl;
 	return stream;
 }
 
 std::istream & operator>>(std::istream & stream, CVector3D & counter)
 {
+	double x;
+	double y;
+	double z;
 	try
 	{
-		stream >> counter.x >> counter.y >> counter.z;
+		if ((stream >> x) && (stream.get() == ',') && (stream >> y) && (stream.get() == ',') && (stream >> z))
+		{
+			counter.x = x;
+			counter.y = y;
+			counter.z = z;
+		}
 	}
 	catch (const std::exception&)
 	{
