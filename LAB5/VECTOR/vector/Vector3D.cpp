@@ -171,7 +171,7 @@ bool const operator!=(const CVector3D & v1, const CVector3D & v2)
 
 std::ostream& operator<<(std::ostream& stream, CVector3D & vector)
 {
-	stream << vector.x << ", " << vector.y << ", " << vector.z << std::endl;
+	stream << vector.x << ", " << vector.y << ", " << vector.z;
 	return stream;
 }
 

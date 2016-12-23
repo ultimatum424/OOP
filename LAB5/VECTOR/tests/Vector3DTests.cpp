@@ -151,7 +151,7 @@ BOOST_FIXTURE_TEST_SUITE(Vector3D, Vector3DFixture)
 	BOOST_AUTO_TEST_CASE(can_read_data_from_stream)
 	{
 		CVector3D vector2 = { 10, 2, 3 };
-		std::stringbuf stringBuff("5 2 1");
+		std::stringbuf stringBuff("5,  2,  1");
 		std::istream is(&stringBuff);
 		is >> vector2;
 		CVector3D rightVector = { 5, 2, 1 };
