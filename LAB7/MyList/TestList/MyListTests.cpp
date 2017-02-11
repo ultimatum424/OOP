@@ -92,6 +92,21 @@ BOOST_FIXTURE_TEST_SUITE(MyList, StringList)
 			counter++;
 		}
 	}
+
+	BOOST_AUTO_TEST_CASE(have_const_iterators_begin_and_end_iterators_list)
+	{
+		list.PushBack("hello");
+		list.PushBack("Ho-ho-ho");
+		list.PushBack("goodbye");
+		std::vector<std::string> expectedStrings = { "hello", "Ho-ho-ho", "goodbye" };
+		size_t counter = 0;
+		for (auto it = list.cbegin(); it != list.cend(); ++it)
+		{
+			BOOST_CHECK_EQUAL(*it, expectedStrings[counter]);
+			counter++;
+		}
+	}
+	
 	BOOST_AUTO_TEST_CASE(have_reverse_iterators_begin_and_end_iterators_list)
 	{
 		list.PushBack("hello");
@@ -103,6 +118,20 @@ BOOST_FIXTURE_TEST_SUITE(MyList, StringList)
 		{
 			BOOST_CHECK_EQUAL(*it, expectedStrings[counter]);
 			counter--;
+		}
+	}
+
+	BOOST_AUTO_TEST_CASE(have_const_reverse_iterators_begin_and_end_iterators_list)
+	{
+		list.PushBack("hello");
+		list.PushBack("Ho-ho-ho");
+		list.PushBack("goodbye");
+		std::vector<std::string> expectedStrings = { "goodbye", "Ho-ho-ho", "hello" };
+		size_t counter = 0;
+		for (auto it = list.crbegin(); it != list.crend(); ++it)
+		{
+			BOOST_CHECK_EQUAL(*it, expectedStrings[counter]);
+			counter++;
 		}
 	}
 

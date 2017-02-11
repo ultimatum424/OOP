@@ -3,15 +3,25 @@
 
 #include "stdafx.h"
 #include "CMyList.h"
+#include <list>
+#include <vector>
+#include <iostream>
 
 int main()
 {
-	CMyList<std::string> cmylist;
-	cmylist.PushBack("1");
-	cmylist.PushBack("1");
-	cmylist.PushBack("1");
-	CMyList<std::string> cmylist2(cmylist);
-	std::string str = cmylist.GetLastElement();
+	CMyList<std::string> list;
+	list.PushBack("hello");
+	list.PushBack("Ho-ho-ho");
+	list.PushBack("goodbye");
+	std::vector<std::string> expectedStrings = { "goodbye", "Ho-ho-ho", "hello" };
+	size_t counter = 0;
+	for (auto it = list.crbegin(); it != list.crend(); ++it)
+	{
+		std::cout << (*it == expectedStrings[counter]) << std::endl;
+		std::cout << *it << std::endl;
+		std::cout << expectedStrings[counter] << std::endl;
+		counter++;
+	}
     return 0;
 }
 

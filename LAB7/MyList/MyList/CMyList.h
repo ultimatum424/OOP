@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 #include <memory>
-#include <cassert>
 template<typename T>
 class CMyList
 {
@@ -17,7 +16,7 @@ class CMyList
 	};
 
 	template<typename U>
-	class CMyListIterator : std::iterator<std::random_access_iterator_tag, U>
+	class CMyListIterator : std::iterator< std::bidirectional_iterator_tag, U>
 	{
 	public:
 		CMyListIterator(SNode* data, bool isReverse)
@@ -41,22 +40,12 @@ class CMyList
 
 		CMyListIterator operator++()
 		{
-			if (m_isReverse)
-			{
-				m_node = m_node->prev;
-				return *this;
-			}
-			m_node = m_node->next.get();
+			m_node = m_isReverse ? m_node->prev : m_node->next.get();	
 			return *this;
 		}
 		CMyListIterator operator--()
 		{
-			if (m_isReverse)
-			{
-				m_node = m_node->next;
-				return *this;
-			}
-			m_node = m_node->prev.get();
+			m_node = m_isReverse ? m_node->next.get() : m_node->prev;
 			return *this;
 		}
 
@@ -69,6 +58,7 @@ class CMyList
 		bool m_isReverse = false;
 	};
 	typedef CMyListIterator<T> MyListIterator;
+	typedef CMyListIterator<const T> ConstCMyListIterator;
 public:
 	CMyList() = default;
 	CMyList(CMyList & list)
@@ -101,6 +91,7 @@ public:
 	{
 		return m_size;
 	}
+
 	void Clear()
 	{
 		while (m_lastNode)
@@ -183,10 +174,27 @@ public:
 		return MyListIterator(m_lastNode->next.get(), true);
 	}
 
+	const ConstCMyListIterator cbegin() const
+	{
+		return ConstCMyListIterator(m_firstNode.get(), false);
+	}
+	const ConstCMyListIterator cend() const
+	{
+		return ConstCMyListIterator(m_lastNode->next.get(), false);
+	}
+	const ConstCMyListIterator crbegin() const
+	{
+		return ConstCMyListIterator(m_lastNode, true);
+	}
+	const ConstCMyListIterator crend() const
+	{
+		return ConstCMyListIterator(m_firstNode->prev, true);
+	}
+
 	void Insert(const MyListIterator & it, T data)
 	{
 		if (it == begin())
-		{
+		{	
 			PushFront(data);
 		}
 		else if (it == end())
