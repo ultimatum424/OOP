@@ -33,6 +33,7 @@ BOOST_FIXTURE_TEST_SUITE(MyList, StringList)
 	{
 		list.Clear();
 		list.PushFront("qwerty");
+		list.PushFront("qwerty2");
 		list.Clear();
 		BOOST_CHECK(list.IsEmpty());
 
@@ -79,12 +80,16 @@ BOOST_FIXTURE_TEST_SUITE(MyList, StringList)
 		BOOST_CHECK_THROW(list.GetFirstElement(), std::logic_error);
 	}
 
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_FIXTURE_TEST_SUITE(Iterators_tests, StringList)
+	
 	BOOST_AUTO_TEST_CASE(have_iterators_begin_and_end_iterators_list)
 	{
-		list.PushBack("hello");
-		list.PushBack("Ho-ho-ho");
+		list.PushBack("alpha");
+		list.PushBack("beta");
 		list.PushBack("goodbye");
-		std::vector<std::string> expectedStrings = { "hello", "Ho-ho-ho", "goodbye" };
+		std::vector<std::string> expectedStrings = { "alpha", "beta", "goodbye" };
 		size_t counter = 0;
 		for (auto it = list.begin(); it != list.end(); ++it)
 		{
@@ -95,10 +100,10 @@ BOOST_FIXTURE_TEST_SUITE(MyList, StringList)
 
 	BOOST_AUTO_TEST_CASE(have_const_iterators_begin_and_end_iterators_list)
 	{
-		list.PushBack("hello");
-		list.PushBack("Ho-ho-ho");
+		list.PushBack("alpha");
+		list.PushBack("beta");
 		list.PushBack("goodbye");
-		std::vector<std::string> expectedStrings = { "hello", "Ho-ho-ho", "goodbye" };
+		std::vector<std::string> expectedStrings = { "alpha", "beta", "goodbye" };
 		size_t counter = 0;
 		for (auto it = list.cbegin(); it != list.cend(); ++it)
 		{
@@ -106,13 +111,13 @@ BOOST_FIXTURE_TEST_SUITE(MyList, StringList)
 			counter++;
 		}
 	}
-	
+
 	BOOST_AUTO_TEST_CASE(have_reverse_iterators_begin_and_end_iterators_list)
 	{
-		list.PushBack("hello");
-		list.PushBack("Ho-ho-ho");
+		list.PushBack("alpha");
+		list.PushBack("beta");
 		list.PushBack("goodbye");
-		std::vector<std::string> expectedStrings = { "goodbye", "Ho-ho-ho", "hello"};
+		std::vector<std::string> expectedStrings = { "goodbye", "beta", "alpha" };
 		size_t counter = expectedStrings.size() - 1;
 		for (auto it = list.rbegin(); it != list.rend(); ++it)
 		{
@@ -123,10 +128,10 @@ BOOST_FIXTURE_TEST_SUITE(MyList, StringList)
 
 	BOOST_AUTO_TEST_CASE(have_const_reverse_iterators_begin_and_end_iterators_list)
 	{
-		list.PushBack("hello");
-		list.PushBack("Ho-ho-ho");
+		list.PushBack("alpha");
+		list.PushBack("beta");
 		list.PushBack("goodbye");
-		std::vector<std::string> expectedStrings = { "goodbye", "Ho-ho-ho", "hello" };
+		std::vector<std::string> expectedStrings = { "goodbye", "beta", "alpha" };
 		size_t counter = 0;
 		for (auto it = list.crbegin(); it != list.crend(); ++it)
 		{
@@ -135,12 +140,16 @@ BOOST_FIXTURE_TEST_SUITE(MyList, StringList)
 		}
 	}
 
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_FIXTURE_TEST_SUITE(MyList, StringList)
+
 	BOOST_AUTO_TEST_CASE(can_get_acsses_to_elements_from_range_based_for)
 	{
-		list.PushBack("hello");
-		list.PushBack("Ho-ho-ho");
+		list.PushBack("alpha");
+		list.PushBack("beta");
 		list.PushBack("goodbye");
-		std::vector<std::string> expectedStrings = { "hello", "Ho-ho-ho", "goodbye" };
+		std::vector<std::string> expectedStrings = { "alpha", "beta", "goodbye" };
 		size_t counter = 0;
 		for (auto str : list)
 		{
@@ -149,46 +158,73 @@ BOOST_FIXTURE_TEST_SUITE(MyList, StringList)
 		}
 	}
 
-	
-	BOOST_AUTO_TEST_CASE(can_insert_element_at_iterator_position)
+BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_FIXTURE_TEST_SUITE(can_insert_element_at_iterator_position, StringList)
+	BOOST_AUTO_TEST_CASE(insert_element_in_empty_list)
 	{
-		list.PushBack("hello");
-		list.PushBack("Ho-ho-ho");
-		list.PushBack("goodbye");
-		auto it = ++list.begin();
-		//list.Insert(it, "20");
-		BOOST_CHECK_EQUAL(*++list.begin(), "20");
-
-		//list.Insert(list.begin(), "11");
-		BOOST_CHECK_EQUAL(*list.begin(), "11");
-
-		//list.Insert(list.end(), "30");
-
-		std::vector<std::string> expectedStrings = { "11", "hello", "20", "Ho-ho-ho", "goodbye", "30" };
-		size_t i = 0;
-		for (auto str : list)
-		{
-			BOOST_CHECK_EQUAL(str, expectedStrings[i]);
-			i++;
-		}
-
+	list.Insert(list.begin(),"start");
+	BOOST_CHECK_EQUAL(list.GetFirstElement(), "start");
 	}
-	
-	BOOST_AUTO_TEST_CASE(can_erase_element_at_iterator_position)
+
+	BOOST_AUTO_TEST_CASE(insert_element_in_begining_list)
 	{
-		list.PushBack("hello");
-		list.PushBack("Ho-ho-ho");
-		list.PushBack("goodbye");
+		list.PushBack("1");
+		list.PushBack("2");
+		list.PushBack("3");
+		list.Insert(list.begin(), "start");
+		BOOST_CHECK_EQUAL(list.GetFirstElement(), "start");
+	}
+
+	BOOST_AUTO_TEST_CASE(insert_element_in_ending_list)
+	{
+		list.PushBack("1");
+		list.PushBack("2");
+		list.PushBack("3");
+		list.Insert(list.end(), "start");
+		BOOST_CHECK_EQUAL(list.GetLastElement(), "start");
+	}
+
+	BOOST_AUTO_TEST_CASE(insert_element_in_middle_of_the_list)
+	{
+		list.PushBack("1");
+		list.PushBack("2");
+		list.PushBack("3");
 		auto it = ++list.begin();
-		BOOST_CHECK_EQUAL(*it, "Ho-ho-ho");
-		list.Erase(it);
-		BOOST_CHECK_EQUAL(*++list.begin(), "goodbye");
+		list.Insert(it, "start");
+		it = ++list.begin();
+		BOOST_CHECK_EQUAL(list.GetFirstElement(), "1");
+		BOOST_CHECK_EQUAL(*it, "start");
+	}
 
-		list.Erase(list.begin());
-		BOOST_CHECK_EQUAL(*list.begin(), "goodbye");
+BOOST_AUTO_TEST_SUITE_END()
+	
+BOOST_FIXTURE_TEST_SUITE(can_erase_element_at_iterator_position, StringList)
+	BOOST_AUTO_TEST_CASE(erase_element_on_middle_of_the_list)
+{
+	list.PushBack("1");
+	list.PushBack("2");
+	list.PushBack("3");
+	auto it = ++list.begin();
+	list.Erase(it);
+	it = ++list.begin();
+	BOOST_CHECK_EQUAL(*it, "3");
+}
 
+	BOOST_AUTO_TEST_CASE(erase_element_on_begining_of_the_list)
+{
+	list.PushBack("1");
+	list.PushBack("2");
+	list.PushBack("3");
+	list.Erase(list.begin());
+	BOOST_CHECK_EQUAL(*list.begin(), "2");
+}
+
+	BOOST_AUTO_TEST_CASE(erase_element_if_list_have_one_element)
+	{
+		list.PushBack("1");
 		list.Erase(list.begin());
 		BOOST_CHECK(list.IsEmpty());
 	}
-	
 BOOST_AUTO_TEST_SUITE_END()
+	

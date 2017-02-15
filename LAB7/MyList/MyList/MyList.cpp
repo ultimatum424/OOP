@@ -13,14 +13,17 @@ int main()
 	list.PushBack("hello");
 	list.PushBack("Ho-ho-ho");
 	list.PushBack("goodbye");
-	std::vector<std::string> expectedStrings = { "goodbye", "Ho-ho-ho", "hello" };
+	auto it = ++list.begin();
+	list.Insert(it, "22");
+	list.Erase(list.end());
+	it = ++list.begin();
+	std::cout << *it;
+	CMyList<std::string> list2(list);
+	std::vector<std::string> expectedStrings = { "111", "goodbye", "Ho-ho-ho", "hello" };
 	size_t counter = 0;
-	for (auto it = list.crbegin(); it != list.crend(); ++it)
+	for (auto it = list.cbegin(); it != list2.cend(); ++it)
 	{
-		std::cout << (*it == expectedStrings[counter]) << std::endl;
 		std::cout << *it << std::endl;
-		std::cout << expectedStrings[counter] << std::endl;
-		counter++;
 	}
     return 0;
 }

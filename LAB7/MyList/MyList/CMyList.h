@@ -4,7 +4,7 @@
 template<typename T>
 class CMyList
 {
-public:
+
 	struct SNode
 	{
 		SNode(const T & data, SNode * prev, std::unique_ptr<SNode> && next) : 
@@ -15,19 +15,21 @@ public:
 		std::unique_ptr<SNode> next;
 	};
 
-	class CMyListIterator : std::iterator< std::bidirectional_iterator_tag, T>
+	template<typename U>
+	class CMyListIterator : std::iterator< std::bidirectional_iterator_tag, U>
 	{
-		friend class CMyList;
 	public:
 		CMyListIterator(SNode* data, bool isReverse)
 			: m_node(data), m_isReverse(isReverse) {}
 
-		T & operator*() const
+		friend class CMyList<T>;
+
+		U & operator*() const
 		{
 			return m_node->data;
 		}
 
-		bool operator!=(CMyListIterator const& node) const
+		bool operator!=(CMyListIterator const& node)
 		{
 			return m_node != node.m_node;
 		}
@@ -38,95 +40,46 @@ public:
 
 		CMyListIterator operator++()
 		{
-			if (!m_isReverse)
-			{
-				m_node = m_node->next.get();
-			}
-			else
-			{
-				m_node = m_node->prev;
-			}
+			m_node = m_isReverse ? m_node->prev : m_node->next.get();	
 			return *this;
 		}
 		CMyListIterator operator--()
 		{
-			if (!m_isReverse)
-			{
-				m_node = m_node->prev;
-			}
-			else
-			{
-				m_node = m_node->next.get();
-			}
+			m_node = m_isReverse ? m_node->next.get() : m_node->prev;
 			return *this;
 		}
 
 	private:
-		T* operator->()const
+		SNode* operator->()const
 		{
-			return &m_node->data;
+			return m_node;
 		}
 		SNode* m_node = nullptr;
 		bool m_isReverse = false;
 	};
-	class CMyConstListInterator : std::iterator< std::bidirectional_iterator_tag, T>
-	{
-		friend class CMyList;
-	public:
-		CMyConstListInterator(SNode* data, bool isReverse)
-			:m_node(data), m_isReverse(isReverse){}
-		const T & operator* () const
-		{
-			return m_node->data;
-		}
-		bool operator!=(CMyConstListInterator const& node) const
-		{
-			return m_node != node.m_node;
-		}
-		bool operator==(CMyConstListInterator const& node) const
-		{
-			return m_node == node.m_node;
-		}
-		CMyConstListInterator operator++()
-		{
-			if (!m_isReverse)
-			{
-				m_node = m_node->next.get();
-			}
-			else
-			{
-				m_node = m_node->prev;
-			}
-			return *this;
-		}
-		CMyConstListInterator operator--()
-		{
-			if (!m_isReverse)
-			{
-				m_node = m_node->prev;
-			}
-			else
-			{
-				m_node = m_node->next.get();
-			}
-			return *this;
-		}
-			
-
-	private:
-		const T * operator->()const
-		{
-			return &m_node->data;
-		}
-		SNode * m_node = nullptr;
-		bool m_isReverse = false;
-	};
-
+	typedef CMyListIterator<T> MyListIterator;
+	typedef CMyListIterator<const T> ConstCMyListIterator;
+public:
 	CMyList() = default;
-	CMyList(CMyList & list) : m_firstNode(list.m_firstNode.get())
+	CMyList(CMyList & list)
 	{
-		m_lastNode = list.m_lastNode;
-		m_size = list.m_size;
+		if (list.GetSize() == 0)
+		{
+			size_t m_size = 0;
+			std::unique_ptr<SNode> m_firstNode = nullptr;
+			SNode * m_lastNode = nullptr;
+		}
+		else
+		{
+			CMyList tmp;
+			for (auto elem : list)
+			{
+				tmp.PushBack(elem);
+			}
+			std::swap(m_firstNode, tmp.m_firstNode);
+			std::swap(m_lastNode, tmp.m_lastNode);
+			m_size = tmp.m_size;
+		}
 	}
 
 	~CMyList()
@@ -152,23 +105,24 @@ public:
 
 	bool IsEmpty() const
 	{
-		return m_firstNode == nullptr;
+		return m_size == 0;
 	}
 
 	void PushBack(const T & data)
 	{
 		auto newNode = std::make_unique<SNode>(data, m_lastNode, nullptr);
-		if (!IsEmpty())
+		SNode *newLastNode = newNode.get();
+		if (m_lastNode)
 		{
 			m_lastNode->next = std::move(newNode);
-			m_lastNode = m_lastNode->next.get();
 		}
 		else
 		{
 			m_firstNode = std::move(newNode);
-			m_lastNode = m_firstNode.get();
 		}
-		m_size++;
+		m_lastNode = newLastNode;
+		m_lastNode->next = nullptr;
+		++m_size;
 	}
 	void PushFront(const T & data)
 	{
@@ -203,56 +157,42 @@ public:
 		return m_firstNode->data;
 	}
 
-	CMyListIterator begin()
+	MyListIterator begin()
 	{
-		return CMyListIterator(m_firstNode.get(), false);
+		return MyListIterator(m_firstNode.get(), false);
 	}
-	CMyListIterator end()
+	MyListIterator end()
 	{
-		return CMyListIterator(m_lastNode->next.get(), false);
+		return MyListIterator(m_lastNode->next.get(), false);
 	}
-	CMyListIterator rbegin()
+	MyListIterator rbegin()
 	{
-		return CMyListIterator(m_firstNode.get(), true);
+		return MyListIterator(m_firstNode.get(), true);
 	}
-	CMyListIterator rend()
+	MyListIterator rend()
 	{
-		return CMyListIterator(m_lastNode->next.get(), true);
-	}
-
-	const CMyConstListInterator cbegin() const
-	{
-		return CMyConstListInterator(m_firstNode.get(), false);
-	}
-	const CMyConstListInterator cend() const
-	{
-		return CMyConstListInterator(m_lastNode->next.get(), false);
-	}
-	const CMyConstListInterator crbegin() const
-	{
-		return CMyConstListInterator(m_lastNode, true);
-	}
-	const CMyConstListInterator crend() const
-	{
-		return CMyConstListInterator(m_firstNode->prev, true);
+		return MyListIterator(m_lastNode->next.get(), true);
 	}
 
-	CMyListIterator Insert(const CMyListIterator & it, T & data)
+	const ConstCMyListIterator cbegin() const
 	{
-		if ((IsEmpty()) || it == begin())
-		{
-			PushFront(data);
-			return begin();
-		}
-		else
-		{
-			SNode *prevNode = it.m_node->prev;
-			auto newNode = std::make_unique<SNode>(data, it.m_node->prev, std::move(it.m_node->prev->next));
-			prevNode->next = std::move(newNode);
-			m_size++;
-			return CMyListIterator(it.m_node->prev->next.get());
-		}
-		/*
+		return ConstCMyListIterator(m_firstNode.get(), false);
+	}
+	const ConstCMyListIterator cend() const
+	{
+		return ConstCMyListIterator(m_lastNode->next.get(), false);
+	}
+	const ConstCMyListIterator crbegin() const
+	{
+		return ConstCMyListIterator(m_lastNode, true);
+	}
+	const ConstCMyListIterator crend() const
+	{
+		return ConstCMyListIterator(m_firstNode->prev, true);
+	}
+
+	void Insert(const MyListIterator & it, T data)
+	{
 		if (it == begin())
 		{	
 			PushFront(data);
@@ -267,17 +207,15 @@ public:
 			it->prev = std::move(newNode.get());
 			newNode->prev->next = std::move(newNode);
 		}
-		*/
 	}
-	void Erase(const CMyListIterator & it)
+	void Erase(const MyListIterator & it)
 	{
 		if (m_size == 1)
 		{
 			Clear();
 			return;
 		}
-
-		if (it == begin())
+		else if (it == begin())
 		{
 			it->next->prev = nullptr;
 			m_firstNode = move(it->next);
