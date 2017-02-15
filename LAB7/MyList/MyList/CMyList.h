@@ -215,8 +215,7 @@ public:
 			Clear();
 			return;
 		}
-
-		if (it == begin())
+		else if (it == begin())
 		{
 			it->next->prev = nullptr;
 			m_firstNode = move(it->next);
