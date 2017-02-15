@@ -156,13 +156,13 @@ BOOST_FIXTURE_TEST_SUITE(MyList, StringList)
 		list.PushBack("Ho-ho-ho");
 		list.PushBack("goodbye");
 		auto it = ++list.begin();
-		list.Insert(it, "20");
+		//list.Insert(it, "20");
 		BOOST_CHECK_EQUAL(*++list.begin(), "20");
 
-		list.Insert(list.begin(), "11");
+		//list.Insert(list.begin(), "11");
 		BOOST_CHECK_EQUAL(*list.begin(), "11");
 
-		list.Insert(list.end(), "30");
+		//list.Insert(list.end(), "30");
 
 		std::vector<std::string> expectedStrings = { "11", "hello", "20", "Ho-ho-ho", "goodbye", "30" };
 		size_t i = 0;
